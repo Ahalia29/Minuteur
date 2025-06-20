@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Minuteur Cuisine Pro</title>
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiTWludXRldXIgQ3Vpc2luZSBQcm8iLCJzaG9ydF9uYW1lIjoiTWludXRldXIiLCJzdGFydF91cmwiOiIuLyIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiNGRjZCMzUiLCJ0aGVtZV9jb2xvciI6IiNGRjZCMzUiLCJpY29ucyI6W3sic3JjIjoiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCM2FXUjBhRDBpTVRreUlpQm9aV2xuYUhROUlqRTVNaUlnZG1sbGQwSnZlRDBpTUNBd0lERTVNaUF4T1RJaUlHWnBiR3c5SW01dmJtVWlJSGh0Ykc1elBTSm9kSFJ3T2k4dmQzZDNMbmN6TG05eVp5OHlNREF3TDNOMlp5SStQR1JsWm5NK0lHNW9aVzVoYldWOUluSmxkbVZwYkNJZ1kyOXVkR1Z1ZEQwaVEwOXVWR1Y0ZENJZ2FXUTlJbkpsZG1WcGJDSStQSE5qY21sd2RENE9JaUJwYkdsdVpTMW9aV2xuYUhRNklqRTBMakU0SWlCcGJHbHVaUzFvWldsbmFIUTZJakUwTGpFNElpQnBiR2x1WlMxM2FXUjBhRG9pTVRJdU16UWFJR2xzYVc1bExYZHBaSFJvT2lJeE1pNHpOQ0lnYUdWcFoyaDBQU0l4TkM0eE9DSWdkMmxrZEdnOUlqRXlMak0wSWlCemRIbHNaVDBpWm1sc2JEb2lJME5CTnpjeE9TSTZJR0psYlMxdFpXMWlaWEl0TnpWd2VDSTZJRE15Y0hncElITjBjbTlyWlMxM2FXUjBhRG9pTWlCeGN6c2lQand2YzJOeWFYQjBQand2WkdWbWN6NE9JRFZ3YnlKN1ZqZzBaWFJYWnpZT0lIUjFZMXBZZFE1ZFBUUTZSR0ZFZGtOb1owZExMa3h6TVM0M01ETnZhMnRSVEM0eVNsQmFRa0ZhUVRoWVVGVkxTakJOVTFablZYaElTVUpCVkdOMmFXbDBNVXRuTFRaelZ6bGpTM1p0VDFWWVpYQnNUbUZ2Y0ZoQmFXODVPWGxtU0ZSQ1ZGRk9SVkJPVkZscVRrODBVMlZXU0VkYU5USTRUMFpPV0VGSmJYTTJPR2h5UldZMFJsaEVOVGQ0WmtaV1V6UjNOM0ZZUzJzMmJrRTZTSHBuVEVSM1VWVlplSEpLTjFWU1JUQktWR05ZUW1WRVNGbHZiVVY0ZW1Vc2FrVllNVGhvWlhocGJuVnVXWEZxYWtSMVNIcFJka05rZFRkUFZ6aDJiakJPVEU1UWFVVnpXV2RhUzJ0TVJWVm5NVVo0YjJoSVFrRXdSa2hFY21aSVRtNU9ZelZPUmpoclNWcGlabmhaTVdGNE4xVTRZVEUyYVZCUFJ6VkpkRkpKTVRNek5HRnFSbFJqUm5SaGQxcEpUVUZyVlZWYVZrVmhRVWN5YXpGNE5WZFBOVGMyVG1rdVkyOXRZbUE0VURoTGVHRm5SSGh3WlZOdlZWVnNWa1pwUWtORVMydE5UV1oyZVVSMWEyOXZabGRVZUdKSE5UVTVRVFJTUWs5VlFqSm5lWGhsUlhsM1kzQlNlR2RMUW5CSlIyUnhhMlJGTmpScVYwOWxjakJGUjNCc1kyMTJNSE5HYVUxcVV6WmlSbVp6VEZKMWNYUk5aR1JpZW5WNGJUSldaelYyYlROeFpIWmxhVmhEWlhoS2JWcDRhazVDVVRablkyZHdhMGx4ZGtaNVNtOHhhMkpLYkVOVWRqbFFWek56ZVZCcFoxaENXRlpTT0dOclJqUTJOakpOVG1kUllsZE5OMEZ4U0ZBNElHVkdiVUZ0YkMweWJWTjZVQ0lnY21WME1rVnRjRlJhVGtoVFpYVnVRVzVZTkdkRFpsQTJibXB6ZGpsUE5qaDJTbFJoVXkxQlkzZGphVVJXVUVGM1VubFhRa2MxZWs5MFlUbFdSMlJKVDBWVVJVNVZSVGhOZGxoM1draDNkRFJOVjI1WldqZEZYQ0lnY0hKcFkyVTlJaUl1UGlCUWNtOXVkRGhOVjI1dVZGcE9URWw0T1U1bVJGRjJWVkZUVFZkT2JqUklRak5FVnlBc0lDa0lJRUkxWWxaT1JGUmxaalpFVjNRNVlXOXNVMDF1VUVwUE0xWlNhMEUyU2tJNWFtMWlaM1pSSWo0OEwzbGNMekZjWHlCYmFXMWNMeUJjTHpkY0x6RmNMekVnTVRrMElHRDRlM0J2Y0haSmRsVXJjSGQxSWg0NEwyOTFjV0ZqY1d0amJYcFllM3B6VTJSeklIUnZhVkJ1U1V0eUtYWnBiM1J6ZVc5MVY0dmFHaDZhV3B1VDBaZVFrcHJNVVZmZVdGWWVqaHNkMU50VlVaU1FYbGxUMmMwY0VkUlV6VnRVblZTWmxoaFpWaFJVSGx2Wm5CWGJEb2laV0Z1UVV4dlZGTm1hM0phYUd4NU5VaDJZbU5WVEZwNmIxSklZWGM5UEM5elkzSnBjSFErUEM5emRtYysrUDNiZXMyWm1tb1VqNlBzNDJXVjNxcVJlUXJEZUhKNlhHMHMzdXlzd1NTWUZPa1hlbE5hUXNNNk5XRHVla3JHdjFnYzNJdklIaEptbjJ1d2tpOHlRQXpHOXFDbzJhQXRMWUJVMFdFY3BhUWprRWJYNU8wdVdKalFmdFFCZ3NkVjloajdQSkNzcWVPZmpqYWhxa2pCTnhqSU9lVVBrSW82djlQbW12SHVIekhiQ1FGK09Yd2JqanJPT1FHeUJvSUJOY3JrbUdqUkJvOEs4K3RjaXZqdkhUZGJPZnhkbWFZajhEaEdWaGZUNkNlZGZlQ3UyOXFmT3o2bXRWL0pBWmhOa1p6dWdhOWlPWVYzR2EzWWlHVWUvcVdvNHNHY1ZvM0JtaWxWNlV6YXZRPT0iLCJ0eXBlIjoiaW1hZ2Uvc3ZnK3htbCIsInNpemVzIjoiMTkyeDE5MiJ9XX0=">
+    <meta name="theme-color" content="#FF6B35">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Minuteur Cuisine">
+    
+    <style>
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+            color: white; min-height: 100vh; display: flex;
+            align-items: center; justify-content: center; overflow: hidden;
+        }
+        
+        .container {
+            background: rgba(255,255,255,0.15); backdrop-filter: blur(20px);
+            border-radius: 25px; padding: 20px; max-width: 420px; width: 95vw;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+            max-height: 95vh; overflow-y: auto;
+        }
+        
+        .header { text-align: center; margin-bottom: 20px; }
+        
+        .title { font-size: 1.8em; font-weight: 800; margin-bottom: 5px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3); }
+        
+        .subtitle { opacity: 0.9; font-size: 0.8em; font-weight: 500; }
+        
+        .tabs {
+            display: flex; background: rgba(255,255,255,0.1); border-radius: 15px;
+            margin-bottom: 15px; overflow: hidden;
+        }
+        
+        .tab {
+            flex: 1; padding: 10px; text-align: center; cursor: pointer;
+            font-weight: bold; font-size: 0.9em; transition: all 0.3s;
+            background: transparent; border: none; color: rgba(255,255,255,0.7);
+        }
+        
+        .tab.active {
+            background: rgba(255,255,255,0.3); color: white;
+        }
+        
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        .time-config { background: rgba(255,255,255,0.2); border-radius: 18px;
+            padding: 15px; margin-bottom: 15px; }
+        
+        .time-selectors { display: grid; grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px; margin-bottom: 12px; }
+        
+        .time-input { background: rgba(255,255,255,0.95); border: none;
+            border-radius: 12px; padding: 10px 6px; text-align: center;
+            font-size: 1em; font-weight: bold; color: #333; appearance: none; }
+        
+        .presets { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+        
+        .preset-btn { background: rgba(255,255,255,0.25);
+            border: 2px solid rgba(255,255,255,0.4); color: white;
+            padding: 8px; border-radius: 10px; cursor: pointer;
+            font-weight: bold; font-size: 0.8em; transition: all 0.2s; }
+        
+        .preset-btn:active { background: rgba(255,255,255,0.4); transform: scale(0.95); }
+        
+        .timer-display { font-size: 3.2em; text-align: center; margin: 20px 0;
+            font-weight: 900; text-shadow: 3px 3px 12px rgba(0,0,0,0.4);
+            font-family: 'SF Mono', Monaco, Consolas, monospace;
+            letter-spacing: 0.05em; cursor: pointer; line-height: 1.1; }
+        
+        .progress-container { height: 6px; background: rgba(255,255,255,0.3);
+            border-radius: 3px; margin: 15px 0; overflow: hidden; }
+        
+        .progress-bar { height: 100%; background: linear-gradient(90deg, #4CAF50, #81C784);
+            width: 0%; transition: width 1s ease; border-radius: 3px; }
+        
+        .controls { display: grid; grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px; margin: 15px 0; }
+        
+        .control-btn { padding: 12px 8px; border: none; border-radius: 12px;
+            font-size: 0.85em; font-weight: bold; cursor: pointer; color: white;
+            transition: all 0.2s; text-shadow: 1px 1px 3px rgba(0,0,0,0.3); }
+        
+        .start-btn { background: linear-gradient(135deg, #4CAF50, #45a049); }
+        .pause-btn { background: linear-gradient(135deg, #FF9800, #f57c00); }
+        .stop-btn { background: linear-gradient(135deg, #f44336, #d32f2f); }
+        
+        .control-btn:active { transform: scale(0.96); }
+        
+        .status { text-align: center; font-size: 0.9em; margin-top: 10px;
+            padding: 10px; background: rgba(255,255,255,0.15);
+            border-radius: 10px; font-weight: 500; }
+        
+        .advanced-controls { background: rgba(255,255,255,0.1); border-radius: 15px;
+            padding: 12px; margin: 10px 0; }
+        
+        .advanced-title { font-size: 1em; font-weight: bold; margin-bottom: 8px;
+            text-align: center; }
+        
+        .rappel-config { display: grid; grid-template-columns: auto 1fr; gap: 8px;
+            align-items: center; margin-bottom: 8px; }
+        
+        .checkbox { width: 18px; height: 18px; margin-right: 5px; }
+        
+        .rappel-input { background: rgba(255,255,255,0.8); border: none;
+            border-radius: 6px; padding: 6px; font-size: 0.85em; color: #333; 
+            min-width: 80px; }
+        
+        .custom-message { background: rgba(255,255,255,0.8); border: none;
+            border-radius: 6px; padding: 8px; font-size: 0.85em; color: #333;
+            width: 100%; margin-top: 5px; }
+        
+        .options-section { margin-bottom: 15px; }
+        
+        .volume-control, .speed-control { margin: 8px 0; }
+        
+        .slider { width: 100%; margin: 5px 0; }
+        
+        .voice-select { background: rgba(255,255,255,0.8); border: none;
+            border-radius: 6px; padding: 8px; font-size: 0.85em; color: #333;
+            width: 100%; margin: 5px 0; }
+        
+        .test-btn { background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white; border: none; padding: 8px 15px; border-radius: 8px;
+            font-size: 0.85em; font-weight: bold; cursor: pointer; margin: 5px 0; }
+        
+        .notification { position: fixed; top: 20px; left: 20px; right: 20px;
+            background: rgba(0,0,0,0.9); color: white; padding: 12px;
+            border-radius: 10px; transform: translateY(-100px);
+            transition: transform 0.3s; z-index: 3000; text-align: center;
+            font-size: 0.9em; }
+        
+        .notification.show { transform: translateY(0); }
+        
+        .fullscreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.95); display: none; align-items: center;
+            justify-content: center; z-index: 2000; flex-direction: column; }
+        
+        .fullscreen-time { font-size: 4em; color: #4CAF50; font-weight: 900;
+            text-shadow: 0 0 30px rgba(76,175,80,0.5);
+            font-family: 'SF Mono', Monaco, Consolas, monospace; margin-bottom: 20px; }
+        
+        .fullscreen-close { color: white; font-size: 1.1em; opacity: 0.7; }
+        
+        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; } }
+        
+        .timer-alert { animation: pulse 1s infinite; color: #ff4444 !important; }
+        
+        .install-prompt { position: fixed; bottom: 20px; left: 20px; right: 20px;
+            background: linear-gradient(135deg, #2196F3, #1976D2); color: white;
+            padding: 12px; border-radius: 10px; display: none; align-items: center;
+            justify-content: space-between; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000; font-size: 0.85em; }
+        
+        .install-btn { background: white; color: #2196F3; border: none;
+            padding: 6px 12px; border-radius: 5px; font-weight: bold;
+            font-size: 0.85em; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="title">⏰ MINUTEUR CUISINE</div>
+            <div class="subtitle">Pro - Nicolas Steiner 2025</div>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('minuteur')">Minuteur</button>
+            <button class="tab" onclick="switchTab('options')">Options</button>
+        </div>
+        
+        <!-- Onglet Minuteur -->
+        <div id="tab-minuteur" class="tab-content active">
+            <div class="time-config">
+                <div class="time-selectors">
+                    <select class="time-input" id="hours">
+                        <option value="0">0 H</option>
+                        <option value="1">1 H</option>
+                        <option value="2">2 H</option>
+                        <option value="3">3 H</option>
+                        <option value="4">4 H</option>
+                        <option value="5">5 H</option>
+                        <option value="6">6 H</option>
+                        <option value="7">7 H</option>
+                        <option value="8">8 H</option>
+                        <option value="9">9 H</option>
+                        <option value="10">10 H</option>
+                        <option value="11">11 H</option>
+                        <option value="12">12 H</option>
+                        <option value="13">13 H</option>
+                        <option value="14">14 H</option>
+                        <option value="15">15 H</option>
+                        <option value="16">16 H</option>
+                        <option value="17">17 H</option>
+                        <option value="18">18 H</option>
+                        <option value="19">19 H</option>
+                        <option value="20">20 H</option>
+                        <option value="21">21 H</option>
+                        <option value="22">22 H</option>
+                        <option value="23">23 H</option>
+                    </select>
+                    <select class="time-input" id="minutes">
+                        <option value="0">0 M</option>
+                        <option value="1">1 M</option>
+                        <option value="2">2 M</option>
+                        <option value="3">3 M</option>
+                        <option value="4">4 M</option>
+                        <option value="5" selected>5 M</option>
+                        <option value="6">6 M</option>
+                        <option value="7">7 M</option>
+                        <option value="8">8 M</option>
+                        <option value="9">9 M</option>
+                        <option value="10">10 M</option>
+                        <option value="11">11 M</option>
+                        <option value="12">12 M</option>
+                        <option value="13">13 M</option>
+                        <option value="14">14 M</option>
+                        <option value="15">15 M</option>
+                        <option value="16">16 M</option>
+                        <option value="17">17 M</option>
+                        <option value="18">18 M</option>
+                        <option value="19">19 M</option>
+                        <option value="20">20 M</option>
+                        <option value="21">21 M</option>
+                        <option value="22">22 M</option>
+                        <option value="23">23 M</option>
+                        <option value="24">24 M</option>
+                        <option value="25">25 M</option>
+                        <option value="26">26 M</option>
+                        <option value="27">27 M</option>
+                        <option value="28">28 M</option>
+                        <option value="29">29 M</option>
+                        <option value="30">30 M</option>
+                        <option value="31">31 M</option>
+                        <option value="32">32 M</option>
+                        <option value="33">33 M</option>
+                        <option value="34">34 M</option>
+                        <option value="35">35 M</option>
+                        <option value="36">36 M</option>
+                        <option value="37">37 M</option>
+                        <option value="38">38 M</option>
+                        <option value="39">39 M</option>
+                        <option value="40">40 M</option>
+                        <option value="41">41 M</option>
+                        <option value="42">42 M</option>
+                        <option value="43">43 M</option>
+                        <option value="44">44 M</option>
+                        <option value="45">45 M</option>
+                        <option value="46">46 M</option>
+                        <option value="47">47 M</option>
+                        <option value="48">48 M</option>
+                        <option value="49">49 M</option>
+                        <option value="50">50 M</option>
+                        <option value="51">51 M</option>
+                        <option value="52">52 M</option>
+                        <option value="53">53 M</option>
+                        <option value="54">54 M</option>
+                        <option value="55">55 M</option>
+                        <option value="56">56 M</option>
+                        <option value="57">57 M</option>
+                        <option value="58">58 M</option>
+                        <option value="59">59 M</option>
+                    </select>
+                    <select class="time-input" id="seconds">
+                        <option value="0" selected>0 S</option>
+                        <option value="1">1 S</option>
+                        <option value="2">2 S</option>
+                        <option value="3">3 S</option>
+                        <option value="4">4 S</option>
+                        <option value="5">5 S</option>
+                        <option value="6">6 S</option>
+                        <option value="7">7 S</option>
+                        <option value="8">8 S</option>
+                        <option value="9">9 S</option>
+                        <option value="10">10 S</option>
+                        <option value="11">11 S</option>
+                        <option value="12">12 S</option>
+                        <option value="13">13 S</option>
+                        <option value="14">14 S</option>
+                        <option value="15">15 S</option>
+                        <option value="16">16 S</option>
+                        <option value="17">17 S</option>
+                        <option value="18">18 S</option>
+                        <option value="19">19 S</option>
+                        <option value="20">20 S</option>
+                        <option value="21">21 S</option>
+                        <option value="22">22 S</option>
+                        <option value="23">23 S</option>
+                        <option value="24">24 S</option>
+                        <option value="25">25 S</option>
+                        <option value="26">26 S</option>
+                        <option value="27">27 S</option>
+                        <option value="28">28 S</option>
+                        <option value="29">29 S</option>
+                        <option value="30">30 S</option>
+                        <option value="31">31 S</option>
+                        <option value="32">32 S</option>
+                        <option value="33">33 S</option>
+                        <option value="34">34 S</option>
+                        <option value="35">35 S</option>
+                        <option value="36">36 S</option>
+                        <option value="37">37 S</option>
+                        <option value="38">38 S</option>
+                        <option value="39">39 S</option>
+                        <option value="40">40 S</option>
+                        <option value="41">41 S</option>
+                        <option value="42">42 S</option>
+                        <option value="43">43 S</option>
+                        <option value="44">44 S</option>
+                        <option value="45">45 S</option>
+                        <option value="46">46 S</option>
+                        <option value="47">47 S</option>
+                        <option value="48">48 S</option>
+                        <option value="49">49 S</option>
+                        <option value="50">50 S</option>
+                        <option value="51">51 S</option>
+                        <option value="52">52 S</option>
+                        <option value="53">53 S</option>
+                        <option value="54">54 S</option>
+                        <option value="55">55 S</option>
+                        <option value="56">56 S</option>
+                        <option value="57">57 S</option>
+                        <option value="58">58 S</option>
+                        <option value="59">59 S</option>
+                    </select>
+                </div>
+                
+                <div class="presets">
+                    <button class="preset-btn" onclick="setTime(0,3,0)">🥚 Œuf coque 3min</button>
+                    <button class="preset-btn" onclick="setTime(0,6,0)">🥚 Œuf mollet 6min</button>
+                    <button class="preset-btn" onclick="setTime(0,9,0)">🥚 Œuf dur 9min</button>
+                    <button class="preset-btn" onclick="setTime(0,25,0)">🥧 Quiche 25min</button>
+                </div>
+            </div>
+
+            <div class="advanced-controls">
+                <div class="advanced-title">🔔 Rappel périodique</div>
+                <div class="rappel-config">
+                    <input type="checkbox" id="rappelPeriodique" class="checkbox">
+                    <label for="rappelPeriodique" style="font-size: 0.85em;">Rappel toutes les</label>
+                </div>
+                <div class="rappel-config">
+                    <select id="rappelMinutes" class="rappel-input">
+                        <option value="1">1 min</option>
+                        <option value="2">2 min</option>
+                        <option value="3">3 min</option>
+                        <option value="4">4 min</option>
+                        <option value="5">5 min</option>
+                        <option value="6">6 min</option>
+                        <option value="7">7 min</option>
+                        <option value="8">8 min</option>
+                        <option value="9">9 min</option>
+                        <option value="10" selected>10 min</option>
+                        <option value="11">11 min</option>
+                        <option value="12">12 min</option>
+                        <option value="13">13 min</option>
+                        <option value="14">14 min</option>
+                        <option value="15">15 min</option>
+                        <option value="16">16 min</option>
+                        <option value="17">17 min</option>
+                        <option value="18">18 min</option>
+                        <option value="19">19 min</option>
+                        <option value="20">20 min</option>
+                        <option value="25">25 min</option>
+                        <option value="30">30 min</option>
+                        <option value="45">45 min</option>
+                        <option value="60">60 min</option>
+                    </select>
+                    <span style="font-size: 0.85em;"></span>
+                </div>
+                <input type="text" id="messagePeriodique" class="custom-message" placeholder="Message personnalisé..." value="N'oublie pas de mélanger !">
+            </div>
+            
+            <div class="advanced-controls">
+                <div class="advanced-title">⚠️ Rappel avant la fin</div>
+                <div class="rappel-config">
+                    <input type="checkbox" id="rappelAvantFin" class="checkbox">
+                    <label for="rappelAvantFin" style="font-size: 0.85em;">Rappel</label>
+                </div>
+                <div class="rappel-config">
+                    <select id="avantFinMinutes" class="rappel-input">
+                        <option value="1">1 min</option>
+                        <option value="2">2 min</option>
+                        <option value="3">3 min</option>
+                        <option value="4">4 min</option>
+                        <option value="5" selected>5 min</option>
+                        <option value="6">6 min</option>
+                        <option value="7">7 min</option>
+                        <option value="8">8 min</option>
+                        <option value="9">9 min</option>
+                        <option value="10">10 min</option>
+                        <option value="15">15 min</option>
+                        <option value="20">20 min</option>
+                        <option value="30">30 min</option>
+                    </select>
+                    <span style="font-size: 0.85em;">avant la fin</span>
+                </div>
+                <input type="text" id="messageAvantFin" class="custom-message" placeholder="Message personnalisé..." value="N'oublie pas d'ajouter l'ingrédient !">
+            </div>
+            
+            <div class="timer-display" id="display" onclick="toggleFullscreen()">00:05:00</div>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="progress"></div>
+            </div>
+            
+            <div class="controls">
+                <button class="control-btn start-btn" onclick="startTimer()">▶️ START</button>
+                <button class="control-btn pause-btn" onclick="pauseTimer()" id="pauseBtn">⏸️ PAUSE</button>
+                <button class="control-btn stop-btn" onclick="stopTimer()">⏹️ STOP</button>
+            </div>
+            
+            <div class="status" id="status">🔥 Prêt à démarrer</div>
+        </div>
+        
+        <!-- Onglet Options -->
+        <div id="tab-options" class="tab-content">
+            <div class="options-section">
+                <div class="advanced-title">🔊 Synthèse vocale</div>
+                <div class="rappel-config">
+                    <input type="checkbox" id="vocalActif" class="checkbox" checked>
+                    <label style="font-size: 0.9em;">Activer la synthèse vocale</label>
+                </div>
+                
+                <div class="volume-control">
+                    <label style="font-size: 0.85em;">Volume: <span id="volumeValue">90</span>%</label>
+                    <input type="range" id="volumeSlider" class="slider" min="0" max="100" value="90">
+                </div>
+                
+                <div class="speed-control">
+                    <label style="font-size: 0.85em;">Vitesse: <span id="speedValue">150</span></label>
+                    <input type="range" id="speedSlider" class="slider" min="100" max="300" value="150">
+                </div>
+                
+                <select id="voiceSelect" class="voice-select">
+                    <option value="">Sélectionner une voix...</option>
+                </select>
+                
+                <button class="test-btn" onclick="testVoice()">🎤 Tester la voix</button>
+            </div>
+            
+            <div class="options-section">
+                <div class="advanced-title">💬 Messages personnalisés</div>
+                <label style="font-size: 0.85em;">Message de fin:</label>
+                <input type="text" id="messageFin" class="custom-message" value="C'est prêt, à table!">
+            </div>
+            
+            <div class="options-section">
+                <div class="advanced-title">⚙️ Autres réglages</div>
+                <div class="rappel-config">
+                    <input type="checkbox" id="vibrationsActives" class="checkbox" checked>
+                    <label style="font-size: 0.9em;">Vibrations</label>
+                </div>
+                <div class="rappel-config">
+                    <input type="checkbox" id="notificationsActives" class="checkbox" checked>
+                    <label style="font-size: 0.9em;">Notifications push</label>
+                </div>
+                <div class="rappel-config">
+                    <input type="checkbox" id="rappel1MinActif" class="checkbox" checked>
+                    <label style="font-size: 0.9em;">Rappel automatique 1 minute avant la fin</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="fullscreen" id="fullscreen" onclick="toggleFullscreen()">
+        <div class="fullscreen-time" id="fullscreenTime">00:05:00</div>
+        <div class="fullscreen-close">Toucher pour fermer</div>
+    </div>
+    
+    <div class="install-prompt" id="installPrompt">
+        <span>📱 Installer sur l'écran d'accueil</span>
+        <button class="install-btn" onclick="installApp()">Installer</button>
+    </div>
+    
+    <div class="notification" id="notification">
+        <span id="notificationText"></span>
+    </div>
+
+    <script>
+        // Variables globales
+        let timeLeft = 300, totalTime = 300, timerActive = false;
+        let interval = null, isPaused = false, wakeLock = null;
+        let nextRappelPeriodique = 0, rappelAvantFinDeclenche = false;
+        let rappel1MinDeclenche = false;
+        
+        // Variables pour la synthèse vocale
+        let speechSynthesis = window.speechSynthesis;
+        let voicesLoaded = false;
+        let currentVoice = null;
+        let messageQueue = [];
+        let isPlaying = false;
+        
+        // PWA Installation
+        let deferredPrompt;
+        
+        // Mise à jour de l'affichage
+        function updateDisplay() {
+            const h = Math.floor(timeLeft / 3600);
+            const m = Math.floor((timeLeft % 3600) / 60);
+            const s = timeLeft % 60;
+            
+            const timeStr = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+            document.getElementById('display').textContent = timeStr;
+            document.getElementById('fullscreenTime').textContent = timeStr;
+            
+            if (totalTime > 0) {
+                const progress = (totalTime - timeLeft) / totalTime * 100;
+                document.getElementById('progress').style.width = progress + '%';
+            }
+            
+            const display = document.getElementById('display');
+            if (timeLeft <= 10 && timeLeft > 0) {
+                display.classList.add('timer-alert');
+            } else {
+                display.classList.remove('timer-alert');
+            }
+        }
+        
+        // Configuration du temps
+        function setTime(h, m, s) {
+            if (!timerActive) {
+                document.getElementById('hours').value = h;
+                document.getElementById('minutes').value = m;
+                document.getElementById('seconds').value = s;
+                timeLeft = h * 3600 + m * 60 + s;
+                totalTime = timeLeft;
+                updateDisplay();
+            }
+        }
+        
+        // Service Worker
+        if ('serviceWorker' in navigator) {
+            const swCode = `
+                self.addEventListener('install', event => {
+                    event.waitUntil(
+                        caches.open('minuteur-v3').then(cache => {
+                            return cache.addAll(['./']);
+                        })
+                    );
+                });
+                
+                self.addEventListener('fetch', event => {
+                    event.respondWith(
+                        caches.match(event.request).then(response => {
+                            return response || fetch(event.request);
+                        })
+                    );
+                });
+            `;
+            
+            const blob = new Blob([swCode], { type: 'application/javascript' });
+            const swUrl = URL.createObjectURL(blob);
+            navigator.serviceWorker.register(swUrl);
+        }
+        
+        // PWA Installation
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault(); 
+            deferredPrompt = e;
+            document.getElementById('installPrompt').style.display = 'flex';
+        });
+        
+        function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(() => {
+                    deferredPrompt = null;
+                    document.getElementById('installPrompt').style.display = 'none';
+                });
+            }
+        }
+        
+        // Gestion des onglets
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+        }
+        
+        // Initialisation des voix
+        function loadVoices() {
+            const voices = speechSynthesis.getVoices();
+            const voiceSelect = document.getElementById('voiceSelect');
+            
+            if (!voiceSelect) return;
+            
+            voiceSelect.innerHTML = '<option value="">Voix par défaut</option>';
+            
+            voices.forEach((voice, index) => {
+                const option = document.createElement('option');
+                let description = voice.name;
+                
+                if (voice.lang.includes('fr')) {
+                    description += ' (Français)';
+                } else if (voice.lang.includes('en')) {
+                    description += ' (English)';
+                }
+                
+                option.value = index;
+                option.textContent = description;
+                voiceSelect.appendChild(option);
+                
+                // Sélectionner automatiquement une voix française
+                if (voice.lang.includes('fr') && !currentVoice) {
+                    currentVoice = voice;
+                    voiceSelect.value = index;
+                }
+            });
+            
+            voicesLoaded = true;
+        }
+        
+        // Charger les voix quand elles sont disponibles
+        if (speechSynthesis.getVoices().length > 0) {
+            loadVoices();
+        } else {
+            speechSynthesis.addEventListener('voiceschanged', loadVoices);
+        }
+        
+        // Gestion du changement de voix
+        document.getElementById('voiceSelect').addEventListener('change', function() {
+            const voices = speechSynthesis.getVoices();
+            const selectedIndex = this.value;
+            currentVoice = selectedIndex ? voices[selectedIndex] : null;
+        });
+        
+        // Gestion des sliders
+        document.getElementById('volumeSlider').addEventListener('input', function() {
+            document.getElementById('volumeValue').textContent = this.value;
+        });
+        
+        document.getElementById('speedSlider').addEventListener('input', function() {
+            document.getElementById('speedValue').textContent = this.value;
+        });
+        
+        // Test de la voix
+        function testVoice() {
+            const message = "Bonjour, ceci est un test de la voix sélectionnée pour le minuteur de cuisine.";
+            sayMessage(message);
+        }
+        
+        // Synthèse vocale
+        function sayMessage(message) {
+            if (!document.getElementById('vocalActif').checked) return;
+            
+            // Limiter la queue à 3 messages max pour éviter l'accumulation
+            if (messageQueue.length > 3) {
+                messageQueue = messageQueue.slice(-2);
+            }
+            
+            messageQueue.push(message);
+            if (!isPlaying) {
+                processVoiceQueue();
+            }
+        }
+        
+        function processVoiceQueue() {
+            if (messageQueue.length === 0) {
+                isPlaying = false;
+                return;
+            }
+            
+            isPlaying = true;
+            const message = messageQueue.shift();
+            
+            // Arrêter toute synthèse en cours
+            speechSynthesis.cancel();
+            
+            const utterance = new SpeechSynthesisUtterance(message);
+            
+            if (currentVoice) {
+                utterance.voice = currentVoice;
+            }
+            
+            utterance.rate = document.getElementById('speedSlider').value / 150;
+            utterance.volume = document.getElementById('volumeSlider').value / 100;
+            
+            utterance.onend = () => {
+                setTimeout(() => processVoiceQueue(), 300);
+            };
+            
+            utterance.onerror = () => {
+                console.log('Erreur synthèse vocale');
+                setTimeout(() => processVoiceQueue(), 300);
+            };
+            
+            try {
+                speechSynthesis.speak(utterance);
+            } catch (e) {
+                console.log('Erreur speak:', e);
+                setTimeout(() => processVoiceQueue(), 300);
+            }
+        }
+        
+        // Démarrage du minuteur
+        async function startTimer() {
+            if (!timerActive && !isPaused) {
+                const h = parseInt(document.getElementById('hours').value);
+                const m = parseInt(document.getElementById('minutes').value);
+                const s = parseInt(document.getElementById('seconds').value);
+                
+                timeLeft = h * 3600 + m * 60 + s;
+                totalTime = timeLeft;
+                
+                if (timeLeft <= 0) {
+                    showNotification('⚠️ Veuillez sélectionner un temps valide!');
+                    return;
+                }
+
+                // Configuration des rappels
+                rappel1MinDeclenche = false;
+                rappelAvantFinDeclenche = false;
+                
+                if (document.getElementById('rappelPeriodique').checked) {
+                    const intervalle = parseInt(document.getElementById('rappelMinutes').value) * 60;
+                    nextRappelPeriodique = timeLeft - intervalle;
+                }
+                
+                // Générer message de démarrage
+                generateStartMessage(h, m, s);
+            }
+            
+            if (!timerActive) {
+                timerActive = true;
+                isPaused = false;
+                document.getElementById('status').innerHTML = '🔥 Cuisson en cours...';
+                document.getElementById('pauseBtn').innerHTML = '⏸️ PAUSE';
+                
+                try {
+                    if ('wakeLock' in navigator) {
+                        wakeLock = await navigator.wakeLock.request('screen');
+                    }
+                } catch (e) { 
+                    // Wake lock non supporté - normal sur certains navigateurs
+                }
+                
+                interval = setInterval(() => {
+                    if (timerActive && timeLeft > 0) {
+                        timeLeft--;
+                        updateDisplay();
+                        checkRappels();
+                        
+                        if (timeLeft <= 0) {
+                            finishedTimer();
+                        }
+                    }
+                }, 1000);
+            }
+        }
+        
+        // Message de démarrage
+        function generateStartMessage(heures, minutes, secondes) {
+            let parts = [];
+            if (heures > 0) parts.push(`${heures} heure${heures > 1 ? 's' : ''}`);
+            if (minutes > 0) parts.push(`${minutes} minute${minutes > 1 ? 's' : ''}`);
+            if (secondes > 0) parts.push(`${secondes} seconde${secondes > 1 ? 's' : ''}`);
+            
+            let message = `Allez, c'est parti pour ${parts.join(', ')} de cuisson`;
+            
+            let rappelsInfo = [];
+            if (document.getElementById('rappelPeriodique').checked) {
+                const periode = parseInt(document.getElementById('rappelMinutes').value);
+                rappelsInfo.push(`avec un rappel toutes les ${periode} minutes`);
+            }
+            
+            if (document.getElementById('rappelAvantFin').checked) {
+                const avant = parseInt(document.getElementById('avantFinMinutes').value);
+                rappelsInfo.push(`et un rappel ${avant} minutes avant la fin`);
+            }
+            
+            if (document.getElementById('rappel1MinActif').checked) {
+                if (!rappelsInfo.some(info => info.includes('1 minute avant'))) {
+                    rappelsInfo.push('et un rappel 1 minute avant la fin');
+                }
+            }
+            
+            if (rappelsInfo.length > 0) {
+                message += ' ' + rappelsInfo.join(' ');
+            }
+            
+            message += '.';
+            sayMessage(message);
+        }
+        
+        // Vérification des rappels
+        function checkRappels() {
+            // Rappel périodique
+            if (document.getElementById('rappelPeriodique').checked && 
+                nextRappelPeriodique >= 0 &&
+                timeLeft <= nextRappelPeriodique && 
+                timeLeft > 60) {
+                
+                const message = document.getElementById('messagePeriodique').value || "N'oublie pas de mélanger !";
+                sayMessage(message);
+                showNotification(`🔔 ${message}`);
+                vibrate([300, 100, 300]);
+                
+                const intervalle = parseInt(document.getElementById('rappelMinutes').value) * 60;
+                nextRappelPeriodique = nextRappelPeriodique - intervalle;
+                if (nextRappelPeriodique < 60) {
+                    nextRappelPeriodique = -1; // Désactiver complètement
+                }
+            }
+            
+            // Rappel avant la fin
+            if (document.getElementById('rappelAvantFin').checked && 
+                !rappelAvantFinDeclenche &&
+                timeLeft <= parseInt(document.getElementById('avantFinMinutes').value) * 60) {
+                
+                const message = document.getElementById('messageAvantFin').value || "Action requise avant la fin!";
+                const minutesRestantes = Math.ceil(timeLeft / 60);
+                const messageComplet = `${message} Il reste ${minutesRestantes} minutes.`;
+                
+                sayMessage(messageComplet);
+                showNotification(`⚠️ ${message}`);
+                vibrate([200, 100, 200, 100, 200]);
+                rappelAvantFinDeclenche = true;
+            }
+            
+            // Rappel 1 minute (si activé)
+            if (document.getElementById('rappel1MinActif').checked && 
+                !rappel1MinDeclenche &&
+                timeLeft <= 60 && timeLeft > 0) {
+                
+                sayMessage("Plus qu'une minute !");
+                showNotification("⏰ Plus qu'une minute !");
+                vibrate([300, 150, 300]);
+                rappel1MinDeclenche = true;
+            }
+            
+            // Rappels standards
+            if (timeLeft === 30) {
+                showNotification('⚡ 30 secondes!');
+                vibrate([200, 100, 200]);
+            } else if (timeLeft === 10) {
+                showNotification('🚨 10 secondes!');
+                vibrate([100, 50, 100, 50, 100]);
+            }
+        }
+        
+        // Pause/reprise
+        function pauseTimer() {
+            if (timerActive) {
+                timerActive = false;
+                isPaused = true;
+                clearInterval(interval);
+                document.getElementById('status').innerHTML = '⏸️ En pause';
+                document.getElementById('pauseBtn').innerHTML = '▶️ REPRENDRE';
+                
+                if (wakeLock) {
+                    wakeLock.release();
+                    wakeLock = null;
+                }
+            } else if (isPaused) {
+                startTimer();
+            }
+        }
+        
+        // Arrêt
+        function stopTimer() {
+            timerActive = false;
+            isPaused = false;
+            clearInterval(interval);
+            timeLeft = 0;
+            updateDisplay();
+            document.getElementById('progress').style.width = '0%';
+            document.getElementById('status').innerHTML = '⏹️ Arrêté';
+            document.getElementById('pauseBtn').innerHTML = '⏸️ PAUSE';
+            
+            // Réinitialiser les rappels
+            rappel1MinDeclenche = false;
+            rappelAvantFinDeclenche = false;
+            
+            if (wakeLock) {
+                wakeLock.release();
+                wakeLock = null;
+            }
+        }
+        
+        // Fin de cuisson
+        function finishedTimer() {
+            timerActive = false;
+            clearInterval(interval);
+            document.getElementById('status').innerHTML = '✅ CUISSON TERMINÉE! BON APPÉTIT!';
+            document.getElementById('display').innerHTML = '🎉 FINI!';
+            document.getElementById('fullscreenTime').innerHTML = '🎉 FINI!';
+            
+            if (document.getElementById('vibrationsActives').checked) {
+                vibrate([1000, 300, 1000, 300, 1000]);
+            }
+            
+            playSound();
+            
+            const messageFin = document.getElementById('messageFin').value || "C'est prêt, à table!";
+            sayMessage(messageFin);
+            showNotification(`🎉 ${messageFin}`);
+            
+            if (wakeLock) {
+                wakeLock.release();
+                wakeLock = null;
+            }
+            
+            // Flash écran
+            document.body.style.background = 'linear-gradient(135deg, #4CAF50 0%, #81C784 100%)';
+            setTimeout(() => {
+                document.body.style.background = 'linear-gradient(135deg, #FF6B35 0%, #F7931E 100%)';
+            }, 3000);
+        }
+        
+        // Plein écran
+        function toggleFullscreen() {
+            const fullscreen = document.getElementById('fullscreen');
+            if (fullscreen.style.display === 'flex') {
+                fullscreen.style.display = 'none';
+            } else {
+                fullscreen.style.display = 'flex';
+            }
+        }
+        
+        // Vibrations
+        function vibrate(pattern) {
+            if (document.getElementById('vibrationsActives').checked && navigator.vibrate) {
+                navigator.vibrate(pattern);
+            }
+        }
+        
+        // Son
+        function playSound() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1.5);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 1.5);
+            } catch (e) {
+                console.log('Audio non supporté');
+            }
+        }
+        
+        // Notifications
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            const text = document.getElementById('notificationText');
+            text.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+            
+            if (document.getElementById('notificationsActives').checked && 
+                'Notification' in window && Notification.permission === 'granted') {
+                new Notification('Minuteur Cuisine', { 
+                    body: message,
+                    icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgZmlsbD0iIzAwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSI5NiIgY3k9Ijk2IiByPSI5NiIgZmlsbD0iI0ZGNkIzNSIvPjx0ZXh0IHg9Ijk2IiB5PSIxMTAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjYwIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4rGwPC90ZXh0Pjwvc3ZnPg=='
+                });
+            }
+        }
+        
+        // Sauvegarde des réglages
+        function saveSettings() {
+            const settings = {
+                rappelPeriodique: document.getElementById('rappelPeriodique').checked,
+                rappelMinutes: document.getElementById('rappelMinutes').value,
+                messagePeriodique: document.getElementById('messagePeriodique').value,
+                rappelAvantFin: document.getElementById('rappelAvantFin').checked,
+                avantFinMinutes: document.getElementById('avantFinMinutes').value,
+                messageAvantFin: document.getElementById('messageAvantFin').value,
+                vocalActif: document.getElementById('vocalActif').checked,
+                volume: document.getElementById('volumeSlider').value,
+                vitesse: document.getElementById('speedSlider').value,
+                voiceIndex: document.getElementById('voiceSelect').value,
+                messageFin: document.getElementById('messageFin').value,
+                vibrationsActives: document.getElementById('vibrationsActives').checked,
+                notificationsActives: document.getElementById('notificationsActives').checked,
+                rappel1MinActif: document.getElementById('rappel1MinActif').checked
+            };
+            
+            try {
+                localStorage.setItem('minuteurSettings', JSON.stringify(settings));
+            } catch (e) {
+                console.log('Erreur sauvegarde:', e);
+            }
+        }
+
+        function loadSettings() {
+            try {
+                const settings = JSON.parse(localStorage.getItem('minuteurSettings'));
+                if (settings) {
+                    document.getElementById('rappelPeriodique').checked = settings.rappelPeriodique || false;
+                    document.getElementById('rappelMinutes').value = settings.rappelMinutes || 10;
+                    document.getElementById('messagePeriodique').value = settings.messagePeriodique || "N'oublie pas de mélanger !";
+                    document.getElementById('rappelAvantFin').checked = settings.rappelAvantFin || false;
+                    document.getElementById('avantFinMinutes').value = settings.avantFinMinutes || 5;
+                    document.getElementById('messageAvantFin').value = settings.messageAvantFin || "N'oublie pas d'ajouter l'ingrédient !";
+                    document.getElementById('vocalActif').checked = settings.vocalActif !== undefined ? settings.vocalActif : true;
+                    document.getElementById('volumeSlider').value = settings.volume || 90;
+                    document.getElementById('speedSlider').value = settings.vitesse || 150;
+                    document.getElementById('messageFin').value = settings.messageFin || "C'est prêt, à table!";
+                    document.getElementById('vibrationsActives').checked = settings.vibrationsActives !== undefined ? settings.vibrationsActives : true;
+                    document.getElementById('notificationsActives').checked = settings.notificationsActives !== undefined ? settings.notificationsActives : true;
+                    document.getElementById('rappel1MinActif').checked = settings.rappel1MinActif !== undefined ? settings.rappel1MinActif : true;
+                    
+                    // Mettre à jour les affichages
+                    document.getElementById('volumeValue').textContent = settings.volume || 90;
+                    document.getElementById('speedValue').textContent = settings.vitesse || 150;
+                    
+                    // Restaurer la voix sélectionnée
+                    if (settings.voiceIndex && voicesLoaded) {
+                        document.getElementById('voiceSelect').value = settings.voiceIndex;
+                        const voices = speechSynthesis.getVoices();
+                        if (voices[settings.voiceIndex]) {
+                            currentVoice = voices[settings.voiceIndex];
+                        }
+                    }
+                }
+            } catch (e) {
+                console.log('Pas de réglages sauvegardés');
+            }
+        }
+
+        // Demander permission notifications
+        if ('Notification' in window && Notification.permission === 'default') {
+            Notification.requestPermission();
+        }
+        
+        // Empêcher le zoom sur double-tap
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // Event listeners pour la sauvegarde
+        ['rappelPeriodique', 'rappelMinutes', 'messagePeriodique', 'rappelAvantFin', 
+         'avantFinMinutes', 'messageAvantFin', 'vocalActif', 'volumeSlider', 
+         'speedSlider', 'voiceSelect', 'messageFin', 'vibrationsActives', 
+         'notificationsActives', 'rappel1MinActif'].forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.addEventListener('change', saveSettings);
+                element.addEventListener('input', saveSettings);
+            }
+        });
+        
+        // Initialisation
+        window.addEventListener('load', () => {
+            updateDisplay();
+            loadSettings();
+            
+            // Charger les voix après un délai si nécessaire
+            setTimeout(() => {
+                if (!voicesLoaded && speechSynthesis.getVoices().length > 0) {
+                    loadVoices();
+                    loadSettings(); // Recharger les réglages pour la voix
+                }
+            }, 1000);
+        });
+        
+        // Restaurer les voix sélectionnées après chargement
+        speechSynthesis.addEventListener('voiceschanged', () => {
+            if (!voicesLoaded) {
+                loadVoices();
+                loadSettings(); // Recharger les réglages pour la voix
+            }
+        });
+    </script>
+</body>
+</html>

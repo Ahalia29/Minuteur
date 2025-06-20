@@ -4,11 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Minuteur Cuisine Pro</title>
-    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiTWludXRldXIgQ3Vpc2luZSBQcm8iLCJzaG9ydF9uYW1lIjoiTWludXRldXIiLCJzdGFydF91cmwiOiIuLyIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiNGRjZCMzUiLCJ0aGVtZV9jb2xvciI6IiNGRjZCMzUiLCJpY29ucyI6W3sic3JjIjoiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCM2FXUjBhRDBpTVRreUlpQm9aV2xuYUhROUlqRTVNaUlnZG1sbGQwSnZlRDBpTUNBd0lERTVNaUF4T1RJaUlHWnBiR3c5SW01dmJtVWlJSGh0Ykc1elBTSm9kSFJ3T2k4dmQzZDNMbmN6TG05eVp5OHlNREF3TDNOMlp5SStQR1JsWm5NK0lHNW9aVzVoYldWOUluSmxkbVZwYkNJZ1kyOXVkR1Z1ZEQwaVEwOXVWR1Y0ZENJZ2FXUTlJbkpsZG1WcGJDSStQSE5qY21sd2RENE9JaUJwYkdsdVpTMW9aV2xuYUhRNklqRTBMakU0SWlCcGJHbHVaUzFvWldsbmFIUTZJakUwTGpFNElpQnBiR2x1WlMxM2FXUjBhRG9pTVRJdU16UWFJR2xzYVc1bExYZHBaSFJvT2lJeE1pNHpOQ0lnYUdWcFoyaDBQU0l4TkM0eE9DSWdkMmxrZEdnOUlqRXlMak0wSWlCemRIbHNaVDBpWm1sc2JEb2lJME5CTnpjeE9TSTZJR0psYlMxdFpXMWlaWEl0TnpWd2VDSTZJRE15Y0hncElITjBjbTlyWlMxM2FXUjBhRG9pTWlCeGN6c2lQand2YzJOeWFYQjBQand2WkdWbWN6NE9JRFZ3YnlKN1ZqZzBaWFJYWnpZT0lIUjFZMXBZZFE1ZFBUUTZSR0ZFZGtOb1owZExMa3h6TVM0M01ETnZhMnRSVEM0eVNsQmFRa0ZhUVRoWVVGVkxTakJOVTFablZYaElTVUpCVkdOMmFXbDBNVXRuTFRaelZ6bGpTM1p0VDFWWVpYQnNUbUZ2Y0ZoQmFXODVPWGxtU0ZSQ1ZGRk9SVkJPVkZscVRrODBVMlZXU0VkYU5USTRUMFpPV0VGSmJYTTJPR2h5UldZMFJsaEVOVGQ0WmtaV1V6UjNOM0ZZUzJzMmJrRTZTSHBuVEVSM1VWVlplSEpLTjFWU1JUQktWR05ZUW1WRVNGbHZiVVY0ZW1Vc2FrVllNVGhvWlhocGJuVnVXWEZxYWtSMVNIcFJka05rZFRkUFZ6aDJiakJPVEU1UWFVVnpXV2RhUzJ0TVJWVm5NVVo0YjJoSVFrRXdSa2hFY21aSVRtNU9ZelZPUmpoclNWcGlabmhaTVdGNE4xVTRZVEUyYVZCUFJ6VkpkRkpKTVRNek5HRnFSbFJqUm5SaGQxcEpUVUZyVlZWYVZrVmhRVWN5YXpGNE5WZFBOVGMyVG1rdVkyOXRZbUE0VURoTGVHRm5SSGh3WlZOdlZWVnNWa1pwUWtORVMydE5UV1oyZVVSMWEyOXZabGRVZUdKSE5UVTVRVFJTUWs5VlFqSm5lWGhsUlhsM1kzQlNlR2RMUW5CSlIyUnhhMlJGTmpScVYwOWxjakJGUjNCc1kyMTJNSE5HYVUxcVV6WmlSbVp6VEZKMWNYUk5aR1JpZW5WNGJUSldaelYyYlROeFpIWmxhVmhEWlhoS2JWcDRhazVDVVRablkyZHdhMGx4ZGtaNVNtOHhhMkpLYkVOVWRqbFFWek56ZVZCcFoxaENXRlpTT0dOclJqUTJOakpOVG1kUllsZE5OMEZ4U0ZBNElHVkdiVUZ0YkMweWJWTjZVQ0lnY21WME1rVnRjRlJhVGtoVFpYVnVRVzVZTkdkRFpsQTJibXB6ZGpsUE5qaDJTbFJoVXkxQlkzZGphVVJXVUVGM1VubFhRa2MxZWs5MFlUbFdSMlJKVDBWVVJVNVZSVGhOZGxoM1draDNkRFJOVjI1WldqZEZYQ0lnY0hKcFkyVTlJaUl1UGlCUWNtOXVkRGhOVjI1dVZGcE9URWw0T1U1bVJGRjJWVkZUVFZkT2JqUklRak5FVnlBc0lDa0lJRUkxWWxaT1JGUmxaalpFVjNRNVlXOXNVMDF1VUVwUE0xWlNhMEUyU2tJNWFtMWlaM1pSSWo0OEwzbGNMekZjWHlCYmFXMWNMeUJjTHpkY0x6RmNMekVnTVRrMElHRDRlM0J2Y0haSmRsVXJjSGQxSWg0NEwyOTFjV0ZqY1d0amJYcFllM3B6VTJSeklIUnZhVkJ1U1V0eUtYWnBiM1J6ZVc5MVY0dmFHaDZhV3B1VDBaZVFrcHJNVVZmZVdGWWVqaHNkMU50VlVaU1FYbGxUMmMwY0VkUlV6VnRVblZTWmxoaFpWaFJVSGx2Wm5CWGJEb2laV0Z1UVV4dlZGTm1hM0phYUd4NU5VaDJZbU5WVEZwNmIxSklZWGM5UEM5elkzSnBjSFErUEM5emRtYysrUDNiZXMyWm1tb1VqNlBzNDJXVjNxcVJlUXJEZUhKNlhHMHMzdXlzd1NTWUZPa1hlbE5hUXNNNk5XRHVla3JHdjFnYzNJdklIaEptbjJ1d2tpOHlRQXpHOXFDbzJhQXRMWUJVMFdFY3BhUWprRWJYNU8wdVdKalFmdFFCZ3NkVjloajdQSkNzcWVPZmpqYWhxa2pCTnhqSU9lVVBrSW82djlQbW12SHVIekhiQ1FGK09Yd2JqanJPT1FHeUJvSUJOY3JrbUdqUkJvOEs4K3RjaXZqdkhUZGJPZnhkbWFZajhEaEdWaGZUNkNlZGZlQ3UyOXFmT3o2bXRWL0pBWmhOa1p6dWdhOWlPWVYzR2EzWWlHVWUvcVdvNHNHY1ZvM0JtaWxWNlV6YXZRPT0iLCJ0eXBlIjoiaW1hZ2Uvc3ZnK3htbCIsInNpemVzIjoiMTkyeDE5MiJ9XX0=">
+    
+    <!-- Manifest avec icônes corrigées -->
+    <link rel="manifest" href="manifest.json">
+    
     <meta name="theme-color" content="#FF6B35">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Minuteur Cuisine">
+    
+    <!-- Icônes Apple -->
+    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png">
     
     <style>
         * {
@@ -281,7 +288,7 @@
                         <option value="3">3 S</option>
                         <option value="4">4 S</option>
                         <option value="5">5 S</option>
-                        <option value="6">6 S</option>
+                        <option value="6">6 M</option>
                         <option value="7">7 S</option>
                         <option value="8">8 S</option>
                         <option value="9">9 S</option>
@@ -342,7 +349,7 @@
                     <button class="preset-btn" onclick="setTime(0,3,0)">🥚 Œuf coque 3 mn</button>
                     <button class="preset-btn" onclick="setTime(0,6,0)">🥚 Œuf mollet 6 mn</button>
                     <button class="preset-btn" onclick="setTime(0,9,0)">🥚 Œuf dur 9 mn</button>
-                    <button class="preset-btn" onclick="setTime(0,25,0)">🥧 Quiche 23 mn</button>
+                    <button class="preset-btn" onclick="setTime(0,25,0)">🥧 Quiche 25 mn</button>
                 </div>
             </div>
 
@@ -351,7 +358,8 @@
                     <input type="checkbox" id="rappelPeriodique" class="checkbox">
                     <label for="rappelPeriodique" style="font-size: 0.85em;">Rappel toutes les</label>
                     <select id="rappelMinutes" class="rappel-input" style="width: 70px;">
-                        <option value="0">0 min</option>                        <option value="5">5 min</option>
+                        <option value="0">0 min</option>
+                        <option value="5">5 min</option>
                         <option value="10" selected>10 min</option>
                         <option value="15">15 min</option>
                         <option value="20">20 min</option>
@@ -371,7 +379,8 @@
                     <input type="checkbox" id="rappelAvantFin" class="checkbox">
                     <label for="rappelAvantFin" style="font-size: 0.85em;">Rappel</label>
                     <select id="avantFinMinutes" class="rappel-input" style="width: 70px;">
-                        <option value="0" selected>0 min</option>                        <option value="5">5 min</option>
+                        <option value="0" selected>0 min</option>
+                        <option value="5">5 min</option>
                         <option value="10">10 min</option>
                         <option value="15">15 min</option>
                         <option value="20">20 min</option>
@@ -527,10 +536,20 @@
             const swCode = `
                 self.addEventListener('install', event => {
                     event.waitUntil(
-                        caches.open('minuteur-v3').then(cache => {
-                            return cache.addAll(['./']);
+                        caches.open('minuteur-v4').then(cache => {
+                            return cache.addAll([
+                                './',
+                                './manifest.json',
+                                './icon-192.png',
+                                './icon-512.png'
+                            ]);
                         })
                     );
+                    self.skipWaiting();
+                });
+                
+                self.addEventListener('activate', event => {
+                    event.waitUntil(self.clients.claim());
                 });
                 
                 self.addEventListener('fetch', event => {
@@ -967,7 +986,7 @@
                 'Notification' in window && Notification.permission === 'granted') {
                 new Notification('Minuteur Cuisine', { 
                     body: message,
-                    icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgZmlsbD0iIzAwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSI5NiIgY3k9Ijk2IiByPSI5NiIgZmlsbD0iI0ZGNkIzNSIvPjx0ZXh0IHg9Ijk2IiB5PSIxMTAiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjYwIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4rGwPC90ZXh0Pjwvc3ZnPg=='
+                    icon: './icon-192.png'
                 });
             }
         }

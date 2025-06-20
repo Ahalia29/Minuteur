@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Minuteur Cuisine Pro</title>
+    
+    <!-- Manifest avec icônes corrigées -->
+    <link rel="manifest" href="manifest.json">
+    
+    <meta name="theme-color" content="#FF6B35">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Minuteur Cuisine">
+    
+    <!-- Icônes Apple -->
+    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png">
+    
+    <style>
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+            color: white; min-height: 100vh; display: flex;
+            align-items: center; justify-content: center; overflow: hidden;
+        }
+        
+        .container {
+            background: rgba(255,255,255,0.15); backdrop-filter: blur(20px);
+            border-radius: 25px; padding: 20px; max-width: 420px; width: 95vw;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+            max-height: 95vh; overflow-y: auto;
+        }
+        
+        .header { text-align: center; margin-bottom: 20px; }
+        
+        .title { font-size: 1.8em; font-weight: 800; margin-bottom: 5px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3); }
+        
+        .subtitle { opacity: 0.9; font-size: 0.8em; font-weight: 500; }
+        
+        .tabs {
+            display: flex; background: rgba(255,255,255,0.1); border-radius: 15px;
+            margin-bottom: 15px; overflow: hidden;
+        }
+        
+        .tab {
+            flex: 1; padding: 10px; text-align: center; cursor: pointer;
+            font-weight: bold; font-size: 0.9em; transition: all 0.3s;
+            background: transparent; border: none; color: rgba(255,255,255,0.7);
+        }
+        
+        .tab.active {
+            background: rgba(255,255,255,0.3); color: white;
+        }
+        
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        .time-config { background: rgba(255,255,255,0.2); border-radius: 18px;
+            padding: 15px; margin-bottom: 15px; }
+        
+        .time-selectors { display: grid; grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px; margin-bottom: 12px; }
+        
+        .time-input { background: rgba(255,255,255,0.95); border: none;
+            border-radius: 12px; padding: 10px 6px; text-align: center;
+            font-size: 1em; font-weight: bold; color: #333; appearance: none; }
+        
+        .presets { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+        
+        .preset-btn { background: rgba(255,255,255,0.25);
+            border: 2px solid rgba(255,255,255,0.4); color: white;
+            padding: 8px; border-radius: 10px; cursor: pointer;
+            font-weight: bold; font-size: 0.8em; transition: all 0.2s; }
+        
+        .preset-btn:active { background: rgba(255,255,255,0.4); transform: scale(0.95); }
+        
+        .timer-display { font-size: 3.2em; text-align: center; margin: 20px 0;
+            font-weight: 900; text-shadow: 3px 3px 12px rgba(0,0,0,0.4);
+            font-family: 'SF Mono', Monaco, Consolas, monospace;
+            letter-spacing: 0.05em; cursor: pointer; line-height: 1.1; }
+        
+        .progress-container { height: 6px; background: rgba(255,255,255,0.3);
+            border-radius: 3px; margin: 15px 0; overflow: hidden; }
+        
+        .progress-bar { height: 100%; background: linear-gradient(90deg, #4CAF50, #81C784);
+            width: 0%; transition: width 1s ease; border-radius: 3px; }
+        
+        .controls { display: grid; grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px; margin: 15px 0; }
+        
+        .control-btn { padding: 12px 8px; border: none; border-radius: 12px;
+            font-size: 0.85em; font-weight: bold; cursor: pointer; color: white;
+            transition: all 0.2s; text-shadow: 1px 1px 3px rgba(0,0,0,0.3); }
+        
+        .start-btn { background: linear-gradient(135deg, #4CAF50, #45a049); }
+        .pause-btn { background: linear-gradient(135deg, #FF9800, #f57c00); }
+        .stop-btn { background: linear-gradient(135deg, #f44336, #d32f2f); }
+        
+        .control-btn:active { transform: scale(0.96); }
+        
+        .status { text-align: center; font-size: 0.9em; margin-top: 10px;
+            padding: 10px; background: rgba(255,255,255,0.15);
+            border-radius: 10px; font-weight: 500; }
+        
+        .advanced-controls { background: rgba(255,255,255,0.1); border-radius: 15px;
+            padding: 12px; margin: 10px 0; }
+        
+        .advanced-title { font-size: 1em; font-weight: bold; margin-bottom: 8px;
+            text-align: center; }
+        
+        .rappel-config { display: grid; grid-template-columns: auto auto auto 1fr; gap: 8px;
+            align-items: center; margin-bottom: 8px; }
+        
+        .checkbox { width: 18px; height: 18px; margin-right: 5px; }
+        
+        .rappel-input { background: rgba(255,255,255,0.8); border: none;
+            border-radius: 6px; padding: 6px; font-size: 0.85em; color: #333; 
+            min-width: 80px; }
+        
+        .custom-message { background: rgba(255,255,255,0.8); border: none;
+            border-radius: 6px; padding: 8px; font-size: 0.85em; color: #333;
+            width: 100%; margin-top: 5px; }
+        
+        .options-section { margin-bottom: 15px; }
+        
+        .volume-control, .speed-control { margin: 8px 0; }
+        
+        .slider { width: 100%; margin: 5px 0; }
+        
+        .voice-select { background: rgba(255,255,255,0.8); border: none;
+            border-radius: 6px; padding: 8px; font-size: 0.85em; color: #333;
+            width: 100%; margin: 5px 0; }
+        
+        .test-btn { background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white; border: none; padding: 8px 15px; border-radius: 8px;
+            font-size: 0.85em; font-weight: bold; cursor: pointer; margin: 5px 0; }
+        
+        .notification { position: fixed; top: 20px; left: 20px; right: 20px;
+            background: rgba(0,0,0,0.9); color: white; padding: 12px;
+            border-radius: 10px; transform: translateY(-100px);
+            transition: transform 0.3s; z-index: 3000; text-align: center;
+            font-size: 0.9em; }
+        
+        .notification.show { transform: translateY(0); }
+        
+        .fullscreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.95); display: none; align-items: center;
+            justify-content: center; z-index: 2000; flex-direction: column; }
+        
+        .fullscreen-time { font-size: 4em; color: #4CAF50; font-weight: 900;
+            text-shadow: 0 0 30px rgba(76,175,80,0.5);
+            font-family: 'SF Mono', Monaco, Consolas, monospace; margin-bottom: 20px; }
+        
+        .fullscreen-close { color: white; font-size: 1.1em; opacity: 0.7; }
+        
+        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; } }
+        
+        .timer-alert { animation: pulse 1s infinite; color: #ff4444 !important; }
+        
+        .install-prompt { position: fixed; bottom: 20px; left: 20px; right: 20px;
+            background: linear-gradient(135deg, #2196F3, #1976D2); color: white;
+            padding: 12px; border-radius: 10px; display: none; align-items: center;
+            justify-content: space-between; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000; font-size: 0.85em; }
+        
+        .install-btn { background: white; color: #2196F3; border: none;
+            padding: 6px 12px; border-radius: 5px; font-weight: bold;
+            font-size: 0.85em; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="title">⏰ MINUTEUR CUISINE</div>
+            <div class="subtitle">@ Nicolas Steiner 2025</div>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('minuteur')">Minuteur</button>
+            <button class="tab" onclick="switchTab('options')">Options</button>
+        </div>
+        
+        <!-- Onglet Minuteur -->
+        <div id="tab-minuteur" class="tab-content active">
+            <div class="time-config">
+                <div class="time-selectors">
+                    <select class="time-input" id="hours">
+                        <option value="0">0 H</option>
+                        <option value="1">1 H</option>
+                        <option value="2">2 H</option>
+                        <option value="3">3 H</option>
+                        <option value="4">4 H</option>
+                        <option value="5">5 H</option>
+                        <option value="6">6 H</option>
+                        <option value="7">7 H</option>
+                        <option value="8">8 H</option>
+                        <option value="9">9 H</option>
+                        <option value="10">10 H</option>
+                        <option value="11">11 H</option>
+                        <option value="12">12 H</option>
+                        <option value="13">13 H</option>
+                        <option value="14">14 H</option>
+                        <option value="15">15 H</option>
+                        <option value="16">16 H</option>
+                        <option value="17">17 H</option>
+                        <option value="18">18 H</option>
+                        <option value="19">19 H</option>
+                        <option value="20">20 H</option>
+                        <option value="21">21 H</option>
+                        <option value="22">22 H</option>
+                        <option value="23">23 H</option>
+                    </select>
+                    <select class="time-input" id="minutes">
+                        <option value="0" selected>0 M</option>
+                        <option value="1">1 M</option>
+                        <option value="2">2 M</option>
+                        <option value="3">3 M</option>
+                        <option value="4">4 M</option>
+                        <option value="5">5 M</option>
+                        <option value="6">6 M</option>
+                        <option value="7">7 M</option>
+                        <option value="8">8 M</option>
+                        <option value="9">9 M</option>
+                        <option value="10">10 M</option>
+                        <option value="11">11 M</option>
+                        <option value="12">12 M</option>
+                        <option value="13">13 M</option>
+                        <option value="14">14 M</option>
+                        <option value="15">15 M</option>
+                        <option value="16">16 M</option>
+                        <option value="17">17 M</option>
+                        <option value="18">18 M</option>
+                        <option value="19">19 M</option>
+                        <option value="20">20 M</option>
+                        <option value="21">21 M</option>
+                        <option value="22">22 M</option>
+                        <option value="23">23 M</option>
+                        <option value="24">24 M</option>
+                        <option value="25">25 M</option>
+                        <option value="26">26 M</option>
+                        <option value="27">27 M</option>
+                        <option value="28">28 M</option>
+                        <option value="29">29 M</option>
+                        <option value="30">30 M</option>
+                        <option value="31">31 M</option>
+                        <option value="32">32 M</option>
+                        <option value="33">33 M</option>
+                        <option value="34">34 M</option>
+                        <option value="35">35 M</option>
+                        <option value="36">36 M</option>
+                        <option value="37">37 M</option>
+                        <option value="38">38 M</option>
+                        <option value="39">39 M</option>
+                        <option value="40">40 M</option>
+                        <option value="41">41 M</option>
+                        <option value="42">42 M</option>
+                        <option value="43">43 M</option>
+                        <option value="44">44 M</option>
+                        <option value="45">45 M</option>
+                        <option value="46">46 M</option>
+                        <option value="47">47 M</option>
+                        <option value="48">48 M</option>
+                        <option value="49">49 M</option>
+                        <option value="50">50 M</option>
+                        <option value="51">51 M</option>
+                        <option value="52">52 M</option>
+                        <option value="53">53 M</option>
+                        <option value="54">54 M</option>
+                        <option value="55">55 M</option>
+                        <option value="56">56 M</option>
+                        <option value="57">57 M</option>
+                        <option value="58">58 M</option>
+                        <option value="59">59 M</option>
+                    </select>
+                    <select class="time-input" id="seconds">
+                        <option value="0" selected>0 S</option>
+                        <option value="1">1 S</option>
+                        <option value="2">2 S</option>
+                        <option value="3">3 S</option>
+                        <option value="4">4 S</option>
+                        <option value="5">5 S</option>
+                        <option value="6">6 M</option>
+                        <option value="7">7 S</option>
+                        <option value="8">8 S</option>
+                        <option value="9">9 S</option>
+                        <option value="10">10 S</option>
+                        <option value="11">11 S</option>
+                        <option value="12">12 S</option>
+                        <option value="13">13 S</option>
+                        <option value="14">14 S</option>
+                        <option value="15">15 S</option>
+                        <option value="16">16 S</option>
+                        <option value="17">17 S</option>
+                        <option value="18">18 S</option>
+                        <option value="19">19 S</option>
+                        <option value="20">20 S</option>
+                        <option value="21">21 S</option>
+                        <option value="22">22 S</option>
+                        <option value="23">23 S</option>
+                        <option value="24">24 S</option>
+                        <option value="25">25 S</option>
+                        <option value="26">26 S</option>
+                        <option value="27">27 S</option>
+                        <option value="28">28 S</option>
+                        <option value="29">29 S</option>
+                        <option value="30">30 S</option>
+                        <option value="31">31 S</option>
+                        <option value="32">32 S</option>
+                        <option value="33">33 S</option>
+                        <option value="34">34 S</option>
+                        <option value="35">35 S</option>
+                        <option value="36">36 S</option>
+                        <option value="37">37 S</option>
+                        <option value="38">38 S</option>
+                        <option value="39">39 S</option>
+                        <option value="40">40 S</option>
+                        <option value="41">41 S</option>
+                        <option value="42">42 S</option>
+                        <option value="43">43 S</option>
+                        <option value="44">44 S</option>
+                        <option value="45">45 S</option>
+                        <option value="46">46 S</option>
+                        <option value="47">47 S</option>
+                        <option value="48">48 S</option>
+                        <option value="49">49 S</option>
+                        <option value="50">50 S</option>
+                        <option value="51">51 S</option>
+                        <option value="52">52 S</option>
+                        <option value="53">53 S</option>
+                        <option value="54">54 S</option>
+                        <option value="55">55 S</option>
+                        <option value="56">56 S</option>
+                        <option value="57">57 S</option>
+                        <option value="58">58 S</option>
+                        <option value="59">59 S</option>
+                    </select>
+                </div>
+                
+                <div class="presets">
+                    <button class="preset-btn" onclick="setTime(0,3,0)">🥚 Œuf coque 3 mn</button>
+                    <button class="preset-btn" onclick="setTime(0,6,0)">🥚 Œuf mollet 6 mn</button>
+                    <button class="preset-btn" onclick="setTime(0,9,0)">🥚 Œuf dur 9 mn</button>
+                    <button class="preset-btn" onclick="setTime(0,25,0)">🥧 Quiche 25 mn</button>
+                </div>
+            </div>
+
+            <div class="advanced-controls">
+                <div class="rappel-config">
+                    <input type="checkbox" id="rappelPeriodique" class="checkbox">
+                    <label for="rappelPeriodique" style="font-size: 0.85em;">Rappel toutes les</label>
+                    <select id="rappelMinutes" class="rappel-input" style="width: 70px;">
+                        <option value="0">0 min</option>
+                        <option value="5">5 min</option>
+                        <option value="10" selected>10 min</option>
+                        <option value="15">15 min</option>
+                        <option value="20">20 min</option>
+                        <option value="25">25 min</option>
+                        <option value="30">30 min</option>
+                        <option value="35">35 min</option>
+                        <option value="40">40 min</option>
+                        <option value="45">45 min</option>
+                        <option value="50">50 min</option>
+                        <option value="55">55 min</option>
+                        <option value="60">60 min</option>
+                    </select>
+                </div>
+                <input type="text" id="messagePeriodique" class="custom-message" placeholder="Message personnalisé..." value="N'oublie pas de mélanger !" style="margin-bottom: 15px;">
+                
+                <div class="rappel-config">
+                    <input type="checkbox" id="rappelAvantFin" class="checkbox">
+                    <label for="rappelAvantFin" style="font-size: 0.85em;">Rappel</label>
+                    <select id="avantFinMinutes" class="rappel-input" style="width: 70px;">
+                        <option value="0" selected>0 min</option>
+                        <option value="5">5 min</option>
+                        <option value="10">10 min</option>
+                        <option value="15">15 min</option>
+                        <option value="20">20 min</option>
+                        <option value="25">25 min</option>
+                        <option value="30">30 min</option>
+                        <option value="35">35 min</option>
+                        <option value="40">40 min</option>
+                        <option value="45">45 min</option>
+                        <option value="50">50 min</option>
+                        <option value="55">55 min</option>
+                        <option value="60">60 min</option>
+                    </select>
+                    <span style="font-size: 0.85em;">avant la fin</span>
+                </div>
+                <input type="text" id="messageAvantFin" class="custom-message" placeholder="Message personnalisé..." value="N'oublie pas d'ajouter l'ingrédient !">
+            </div>
+            
+            <div class="timer-display" id="display" onclick="toggleFullscreen()">00:05:00</div>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="progress"></div>
+            </div>
+            
+            <div class="controls">
+                <button class="control-btn start-btn" onclick="startTimer()">▶️ START</button>
+                <button class="control-btn pause-btn" onclick="pauseTimer()" id="pauseBtn">⏸️ PAUSE</button>
+                <button class="control-btn stop-btn" onclick="stopTimer()">⏹️ STOP</button>
+            </div>
+            
+            <div class="status" id="status">🔥 Prêt à démarrer</div>
+        </div>
+        
+        <!-- Onglet Options -->
+        <div id="tab-options" class="tab-content">
+            <div class="options-section">
+                <div class="advanced-title">🔊 Synthèse vocale</div>
+                <div class="rappel-config">
+                    <input type="checkbox" id="vocalActif" class="checkbox" checked>
+                    <label style="font-size: 0.9em;">Activer la synthèse vocale</label>
+                </div>
+                
+                <div class="volume-control">
+                    <label style="font-size: 0.85em;">Volume: <span id="volumeValue">90</span>%</label>
+                    <input type="range" id="volumeSlider" class="slider" min="0" max="100" value="90">
+                </div>
+                
+                <div class="speed-control">
+                    <label style="font-size: 0.85em;">Vitesse: <span id="speedValue">150</span></label>
+                    <input type="range" id="speedSlider" class="slider" min="100" max="300" value="150">
+                </div>
+                
+                <select id="voiceSelect" class="voice-select">
+                    <option value="">Sélectionner une voix...</option>
+                </select>
+                
+                <button class="test-btn" onclick="testVoice()">🎤 Tester la voix</button>
+                <button class="test-btn" onclick="emergencyStopVoice()" style="background: linear-gradient(135deg, #f44336, #d32f2f); margin-top: 5px;">
+                    🚨 ARRÊT D'URGENCE VOCAL
+                </button>
+            </div>
+            
+            <div class="options-section">
+                <div class="advanced-title">💬 Messages personnalisés</div>
+                <label style="font-size: 0.85em;">Message de fin:</label>
+                <input type="text" id="messageFin" class="custom-message" value="C'est prêt, à table!">
+            </div>
+            
+            <div class="options-section">
+                <div class="advanced-title">⚙️ Autres réglages</div>
+                <div class="rappel-config">
+                    <input type="checkbox" id="vibrationsActives" class="checkbox" checked>
+                    <label style="font-size: 0.9em;">Vibrations</label>
+                </div>
+                <div class="rappel-config">
+                    <input type="checkbox" id="notificationsActives" class="checkbox" checked>
+                    <label style="font-size: 0.9em;">Notifications push</label>
+                </div>
+                <div class="rappel-config">
+                    <input type="checkbox" id="rappel1MinActif" class="checkbox" checked>
+                    <label style="font-size: 0.9em;">Rappel automatique 1 minute avant la fin</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="fullscreen" id="fullscreen" onclick="toggleFullscreen()">
+        <div class="fullscreen-time" id="fullscreenTime">00:05:00</div>
+        <div class="fullscreen-close">Toucher pour fermer</div>
+    </div>
+    
+    <div class="install-prompt" id="installPrompt">
+        <span>📱 Installer sur l'écran d'accueil</span>
+        <button class="install-btn" onclick="installApp()">Installer</button>
+    </div>
+    
+    <div class="notification" id="notification">
+        <span id="notificationText"></span>
+    </div>
+
+    <script>
+        // Variables globales avec contrôle mobile spécifique
+        let timeLeft = 300, totalTime = 300, timerActive = false;
+        let interval = null, isPaused = false, wakeLock = null;
+        let nextRappelPeriodique = 0, rappelAvantFinDeclenche = false;
+        let rappel1MinDeclenche = false;
+        let rappel30SecDeclenche = false;
+        let rappel10SecDeclenche = false;
+        
+        // SYSTÈME ANTI-BOUCLE MOBILE RENFORCÉ
+        let sessionId = Date.now();
+        let messagesEnvoyes = new Set();
+        let lastVoiceTime = 0;
+        let currentUtterance = null; // Référence à l'utterance en cours
+        let isSpeaking = false; // Flag manuel pour mobile
+        let speechBlocked = false; // Blocage d'urgence
+        
+        // Variables pour la synthèse vocale
+        let speechSynthesis = window.speechSynthesis;
+        let voicesLoaded = false;
+        let currentVoice = null;
+        let messageQueue = [];
+        let isPlaying = false;
+        
+        // PWA Installation
+        let deferredPrompt;
+        
+        // Mise à jour de l'affichage
+        function updateDisplay() {
+            const h = Math.floor(timeLeft / 3600);
+            const m = Math.floor((timeLeft % 3600) / 60);
+            const s = timeLeft % 60;
+            
+            const timeStr = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+            document.getElementById('display').textContent = timeStr;
+            document.getElementById('fullscreenTime').textContent = timeStr;
+            
+            if (totalTime > 0) {
+                const progress = (totalTime - timeLeft) / totalTime * 100;
+                document.getElementById('progress').style.width = progress + '%';
+            }
+            
+            const display = document.getElementById('display');
+            if (timeLeft <= 10 && timeLeft > 0) {
+                display.classList.add('timer-alert');
+            } else {
+                display.classList.remove('timer-alert');
+            }
+        }
+        
+        // Configuration du temps
+        function setTime(h, m, s) {
+            if (!timerActive) {
+                document.getElementById('hours').value = h;
+                document.getElementById('minutes').value = m;
+                document.getElementById('seconds').value = s;
+                timeLeft = h * 3600 + m * 60 + s;
+                totalTime = timeLeft;
+                updateDisplay();
+            }
+        }
+        
+        // Service Worker externe
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js', {
+                scope: './'
+            }).then(registration => {
+                console.log('SW: Enregistrement réussi', registration.scope);
+                
+                // Enregistrer pour la synchronisation périodique si supportée
+                if ('periodicSync' in registration) {
+                    registration.periodicSync.register('update-cache', {
+                        minInterval: 24 * 60 * 60 * 1000 // 24 heures
+                    }).catch(err => console.log('Periodic sync not supported'));
+                }
+                
+                // Vérifier les mises à jour
+                registration.addEventListener('updatefound', () => {
+                    const newWorker = registration.installing;
+                    newWorker.addEventListener('statechange', () => {
+                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                            // Nouvelle version disponible
+                            if (confirm('Nouvelle version disponible ! Recharger ?')) {
+                                newWorker.postMessage({ type: 'SKIP_WAITING' });
+                                window.location.reload();
+                            }
+                        }
+                    });
+                });
+                
+            }).catch(error => {
+                console.log('SW: Échec d\'enregistrement', error);
+            });
+            
+            // Écouter les messages du SW
+            navigator.serviceWorker.addEventListener('message', event => {
+                console.log('Message du SW:', event.data);
+            });
+        }
+        
+        // PWA Installation
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault(); 
+            deferredPrompt = e;
+            document.getElementById('installPrompt').style.display = 'flex';
+        });
+        
+        function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(() => {
+                    deferredPrompt = null;
+                    document.getElementById('installPrompt').style.display = 'none';
+                });
+            }
+        }
+        
+        // Gestion des onglets
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+        }
+        
+        // Initialisation des voix
+        function loadVoices() {
+            const voices = speechSynthesis.getVoices();
+            const voiceSelect = document.getElementById('voiceSelect');
+            
+            if (!voiceSelect) return;
+            
+            voiceSelect.innerHTML = '<option value="">Voix par défaut</option>';
+            
+            voices.forEach((voice, index) => {
+                const option = document.createElement('option');
+                let description = voice.name;
+                
+                if (voice.lang.includes('fr')) {
+                    description += ' (Français)';
+                } else if (voice.lang.includes('en')) {
+                    description += ' (English)';
+                }
+                
+                option.value = index;
+                option.textContent = description;
+                voiceSelect.appendChild(option);
+                
+                // Sélectionner automatiquement une voix française
+                if (voice.lang.includes('fr') && !currentVoice) {
+                    currentVoice = voice;
+                    voiceSelect.value = index;
+                }
+            });
+            
+            voicesLoaded = true;
+        }
+        
+        // Charger les voix quand elles sont disponibles
+        if (speechSynthesis.getVoices().length > 0) {
+            loadVoices();
+        } else {
+            speechSynthesis.addEventListener('voiceschanged', loadVoices);
+        }
+        
+        // Gestion du changement de voix
+        document.getElementById('voiceSelect').addEventListener('change', function() {
+            const voices = speechSynthesis.getVoices();
+            const selectedIndex = this.value;
+            currentVoice = selectedIndex ? voices[selectedIndex] : null;
+        });
+        
+        // Gestion des sliders
+        document.getElementById('volumeSlider').addEventListener('input', function() {
+            document.getElementById('volumeValue').textContent = this.value;
+        });
+        
+        document.getElementById('speedSlider').addEventListener('input', function() {
+            document.getElementById('speedValue').textContent = this.value;
+        });
+        
+        // Test de la voix
+        function testVoice() {
+            const message = "Bonjour, ceci est un test de la voix sélectionnée pour le minuteur de cuisine.";
+            sayMessage(message);
+        }
+        
+        // FONCTION D'URGENCE pour mobile
+        function emergencyStopVoice() {
+            console.log('MOBILE: ARRÊT D\'URGENCE VOCAL');
+            speechBlocked = true;
+            
+            try {
+                // Arrêt brutal multiple
+                speechSynthesis.cancel();
+                speechSynthesis.cancel();
+                speechSynthesis.cancel();
+                
+                if (currentUtterance) {
+                    currentUtterance = null;
+                }
+                isSpeaking = false;
+                messagesEnvoyes.clear();
+                
+                // Nouvelle session pour reset complet
+                sessionId = Date.now();
+                
+                showNotification('🚨 Synthèse vocale arrêtée d\'urgence !');
+                
+                // Débloquer après 2 secondes
+                setTimeout(() => {
+                    speechBlocked = false;
+                    console.log('MOBILE: Synthèse débloquée');
+                }, 2000);
+                
+            } catch (e) {
+                console.log('MOBILE: Erreur arrêt urgence:', e);
+            }
+        }
+        
+        // Synthèse vocale - VERSION MOBILE ANTI-BOUCLE
+        function sayMessage(message) {
+            if (!document.getElementById('vocalActif').checked || speechBlocked) return;
+            
+            const now = Date.now();
+            const messageKey = `${sessionId}_${timeLeft}_${message}`;
+            
+            // Vérifications renforcées pour mobile
+            if (messagesEnvoyes.has(messageKey)) {
+                console.log('MOBILE: Message déjà envoyé, ignoré:', message);
+                return;
+            }
+            
+            if (now - lastVoiceTime < 3000) { // 3 secondes minimum sur mobile
+                console.log('MOBILE: Message trop rapproché, ignoré:', message);
+                return;
+            }
+            
+            if (isSpeaking) {
+                console.log('MOBILE: Synthèse en cours, ignoré:', message);
+                return;
+            }
+            
+            // Marquer comme envoyé AVANT de commencer
+            messagesEnvoyes.add(messageKey);
+            lastVoiceTime = now;
+            isSpeaking = true;
+            
+            console.log('MOBILE: ENVOI MESSAGE:', message, 'Time:', timeLeft);
+            
+            // ARRÊT BRUTAL pour mobile
+            try {
+                speechSynthesis.cancel();
+                if (currentUtterance) {
+                    currentUtterance = null;
+                }
+            } catch (e) {
+                console.log('MOBILE: Erreur cancel:', e);
+            }
+            
+            // Délai plus long pour mobile
+            setTimeout(() => {
+                if (!document.getElementById('vocalActif').checked || speechBlocked) {
+                    isSpeaking = false;
+                    return;
+                }
+                
+                try {
+                    speechSynthesis.cancel(); // Second nettoyage
+                    
+                    currentUtterance = new SpeechSynthesisUtterance(message);
+                    
+                    if (currentVoice) {
+                        currentUtterance.voice = currentVoice;
+                    }
+                    
+                    currentUtterance.rate = document.getElementById('speedSlider').value / 150;
+                    currentUtterance.volume = document.getElementById('volumeSlider').value / 100;
+                    
+                    // Gestion des événements renforcée pour mobile
+                    currentUtterance.onstart = () => {
+                        console.log('MOBILE: DÉBUT SYNTHÈSE:', message);
+                        isSpeaking = true;
+                    };
+                    
+                    currentUtterance.onend = () => {
+                        console.log('MOBILE: FIN SYNTHÈSE:', message);
+                        isSpeaking = false;
+                        currentUtterance = null;
+                    };
+                    
+                    currentUtterance.onerror = (e) => {
+                        console.log('MOBILE: ERREUR SYNTHÈSE:', e, message);
+                        isSpeaking = false;
+                        currentUtterance = null;
+                    };
+                    
+                    // Timeout de sécurité pour mobile (synthèse bloquée)
+                    setTimeout(() => {
+                        if (isSpeaking && currentUtterance) {
+                            console.log('MOBILE: TIMEOUT - Forçage arrêt synthèse');
+                            speechSynthesis.cancel();
+                            isSpeaking = false;
+                            currentUtterance = null;
+                        }
+                    }, 10000); // 10 secondes max
+                    
+                    speechSynthesis.speak(currentUtterance);
+                    
+                } catch (e) {
+                    console.log('MOBILE: ERREUR SPEAK:', e);
+                    isSpeaking = false;
+                    currentUtterance = null;
+                }
+            }, 500); // Délai plus long pour mobile
+        }
+        
+        // Supprimer l'ancienne fonction processVoiceQueue car on n'en a plus besoin
+        function processVoiceQueue() {
+            // Fonction supprimée - on utilise maintenant la synthèse directe
+        }
+        
+        // Démarrage du minuteur avec nettoyage mobile complet
+        async function startTimer() {
+            if (!timerActive && !isPaused) {
+                const h = parseInt(document.getElementById('hours').value);
+                const m = parseInt(document.getElementById('minutes').value);
+                const s = parseInt(document.getElementById('seconds').value);
+                
+                timeLeft = h * 3600 + m * 60 + s;
+                totalTime = timeLeft;
+                
+                if (timeLeft <= 0) {
+                    showNotification('⚠️ Veuillez sélectionner un temps valide!');
+                    return;
+                }
+
+                // NETTOYAGE MOBILE COMPLET
+                speechBlocked = true; // Bloquer pendant le reset
+                try {
+                    speechSynthesis.cancel();
+                    if (currentUtterance) {
+                        currentUtterance = null;
+                    }
+                    isSpeaking = false;
+                    messagesEnvoyes.clear();
+                    sessionId = Date.now();
+                    lastVoiceTime = 0;
+                } catch (e) {
+                    console.log('MOBILE: Erreur nettoyage start:', e);
+                }
+                
+                // Réinitialiser tous les rappels
+                rappel1MinDeclenche = false;
+                rappelAvantFinDeclenche = false;
+                rappel30SecDeclenche = false;
+                rappel10SecDeclenche = false;
+                
+                if (document.getElementById('rappelPeriodique').checked) {
+                    const intervalle = parseInt(document.getElementById('rappelMinutes').value) * 60;
+                    nextRappelPeriodique = timeLeft - intervalle;
+                    if (nextRappelPeriodique <= 60) {
+                        nextRappelPeriodique = 0;
+                    }
+                } else {
+                    nextRappelPeriodique = 0;
+                }
+                
+                console.log('MOBILE: NOUVEAU MINUTEUR:', timeLeft, 'secondes, Session:', sessionId);
+                
+                // Débloquer la synthèse après reset
+                speechBlocked = false;
+                
+                // Générer message de démarrage après délai
+                setTimeout(() => {
+                    generateStartMessage(h, m, s);
+                }, 500);
+            }
+            
+            if (!timerActive) {
+                timerActive = true;
+                isPaused = false;
+                document.getElementById('status').innerHTML = '🔥 Cuisson en cours...';
+                document.getElementById('pauseBtn').innerHTML = '⏸️ PAUSE';
+                
+                try {
+                    if ('wakeLock' in navigator) {
+                        wakeLock = await navigator.wakeLock.request('screen');
+                    }
+                } catch (e) { 
+                    // Wake lock non supporté - normal sur certains navigateurs
+                }
+                
+                interval = setInterval(() => {
+                    if (timerActive && timeLeft > 0) {
+                        timeLeft--;
+                        updateDisplay();
+                        checkRappels();
+                        
+                        if (timeLeft <= 0) {
+                            finishedTimer();
+                        }
+                    }
+                }, 1000);
+            }
+        }
+        
+        // Message de démarrage
+        function generateStartMessage(heures, minutes, secondes) {
+            let parts = [];
+            if (heures > 0) parts.push(`${heures} heure${heures > 1 ? 's' : ''}`);
+            if (minutes > 0) parts.push(`${minutes} minute${minutes > 1 ? 's' : ''}`);
+            if (secondes > 0) parts.push(`${secondes} seconde${secondes > 1 ? 's' : ''}`);
+            
+            let message = `Allez, c'est parti pour ${parts.join(', ')} de cuisson`;
+            
+            let rappelsInfo = [];
+            if (document.getElementById('rappelPeriodique').checked) {
+                const periode = parseInt(document.getElementById('rappelMinutes').value);
+                rappelsInfo.push(`avec un rappel toutes les ${periode} minutes`);
+            }
+            
+            if (document.getElementById('rappelAvantFin').checked) {
+                const avant = parseInt(document.getElementById('avantFinMinutes').value);
+                rappelsInfo.push(`et un rappel ${avant} minutes avant la fin`);
+            }
+            
+            if (document.getElementById('rappel1MinActif').checked) {
+                if (!rappelsInfo.some(info => info.includes('1 minute avant'))) {
+                    rappelsInfo.push('et un rappel 1 minute avant la fin');
+                }
+            }
+            
+            if (rappelsInfo.length > 0) {
+                message += ' ' + rappelsInfo.join(' ');
+            }
+            
+            message += '.';
+            sayMessage(message);
+        }
+        
+        // Vérification des rappels - VERSION ANTI-BOUCLE ABSOLUE
+        function checkRappels() {
+            // Rappel périodique
+            if (document.getElementById('rappelPeriodique').checked && 
+                nextRappelPeriodique > 0 &&
+                timeLeft === nextRappelPeriodique) { // CONDITION EXACTE
+                
+                const message = document.getElementById('messagePeriodique').value || "N'oublie pas de mélanger !";
+                sayMessage(message);
+                showNotification(`🔔 ${message}`);
+                vibrate([300, 100, 300]);
+                
+                // Calculer le prochain rappel
+                const intervalle = parseInt(document.getElementById('rappelMinutes').value) * 60;
+                nextRappelPeriodique = nextRappelPeriodique - intervalle;
+                if (nextRappelPeriodique <= 60) {
+                    nextRappelPeriodique = 0; // Désactiver
+                }
+                
+                console.log('Rappel périodique envoyé à', timeLeft, 'prochain à', nextRappelPeriodique);
+            }
+            
+            // Rappel avant la fin
+            const avantFinSecondes = parseInt(document.getElementById('avantFinMinutes').value) * 60;
+            if (document.getElementById('rappelAvantFin').checked && 
+                !rappelAvantFinDeclenche &&
+                timeLeft === avantFinSecondes) { // CONDITION EXACTE
+                
+                const message = document.getElementById('messageAvantFin').value || "Action requise avant la fin!";
+                const minutesRestantes = Math.ceil(timeLeft / 60);
+                const messageComplet = `${message} Il reste ${minutesRestantes} minutes.`;
+                
+                sayMessage(messageComplet);
+                showNotification(`⚠️ ${message}`);
+                vibrate([200, 100, 200, 100, 200]);
+                rappelAvantFinDeclenche = true;
+                
+                console.log('Rappel avant fin envoyé à', timeLeft);
+            }
+            
+            // Rappel 1 minute
+            if (document.getElementById('rappel1MinActif').checked && 
+                !rappel1MinDeclenche &&
+                timeLeft === 60) { // CONDITION EXACTE
+                
+                sayMessage("Plus qu'une minute !");
+                showNotification("⏰ Plus qu'une minute !");
+                vibrate([300, 150, 300]);
+                rappel1MinDeclenche = true;
+                
+                console.log('Rappel 1 min envoyé à', timeLeft);
+            }
+            
+            // Rappel 30 secondes (SANS VOIX pour éviter surcharge)
+            if (!rappel30SecDeclenche && timeLeft === 30) {
+                showNotification('⚡ 30 secondes!');
+                vibrate([200, 100, 200]);
+                rappel30SecDeclenche = true;
+            }
+            
+            // Rappel 10 secondes (SANS VOIX pour éviter surcharge)
+            if (!rappel10SecDeclenche && timeLeft === 10) {
+                showNotification('🚨 10 secondes!');
+                vibrate([100, 50, 100, 50, 100]);
+                rappel10SecDeclenche = true;
+            }
+        }
+        
+        // Pause/reprise et arrêt avec nettoyage mobile absolu
+        function pauseTimer() {
+            if (timerActive) {
+                timerActive = false;
+                isPaused = true;
+                clearInterval(interval);
+                document.getElementById('status').innerHTML = '⏸️ En pause';
+                document.getElementById('pauseBtn').innerHTML = '▶️ REPRENDRE';
+                
+                // NETTOYAGE MOBILE RENFORCÉ
+                speechBlocked = true; // Bloquer toute nouvelle synthèse
+                try {
+                    speechSynthesis.cancel();
+                    if (currentUtterance) {
+                        currentUtterance = null;
+                    }
+                    isSpeaking = false;
+                } catch (e) {
+                    console.log('MOBILE: Erreur nettoyage pause:', e);
+                }
+                console.log('MOBILE: PAUSE - Synthèse bloquée');
+                
+                if (wakeLock) {
+                    wakeLock.release();
+                    wakeLock = null;
+                }
+            } else if (isPaused) {
+                speechBlocked = false; // Débloquer
+                startTimer();
+            }
+        }
+        
+        function stopTimer() {
+            timerActive = false;
+            isPaused = false;
+            clearInterval(interval);
+            timeLeft = 0;
+            updateDisplay();
+            document.getElementById('progress').style.width = '0%';
+            document.getElementById('status').innerHTML = '⏹️ Arrêté';
+            document.getElementById('pauseBtn').innerHTML = '⏸️ PAUSE';
+            
+            // NETTOYAGE MOBILE ABSOLU
+            speechBlocked = true; // Bloquer immédiatement
+            try {
+                speechSynthesis.cancel();
+                if (currentUtterance) {
+                    currentUtterance = null;
+                }
+                isSpeaking = false;
+                messagesEnvoyes.clear();
+                sessionId = Date.now(); // Nouvelle session
+            } catch (e) {
+                console.log('MOBILE: Erreur nettoyage stop:', e);
+            }
+            
+            // Débloquer après nettoyage
+            setTimeout(() => {
+                speechBlocked = false;
+            }, 1000);
+            
+            console.log('MOBILE: STOP - Tout nettoyé, nouvelle session:', sessionId);
+            
+            // Réinitialiser tous les rappels
+            rappel1MinDeclenche = false;
+            rappelAvantFinDeclenche = false;
+            rappel30SecDeclenche = false;
+            rappel10SecDeclenche = false;
+            nextRappelPeriodique = 0;
+            
+            if (wakeLock) {
+                wakeLock.release();
+                wakeLock = null;
+            }
+        }
+        
+        // Fin de cuisson
+        function finishedTimer() {
+            timerActive = false;
+            clearInterval(interval);
+            document.getElementById('status').innerHTML = '✅ CUISSON TERMINÉE! BON APPÉTIT!';
+            document.getElementById('display').innerHTML = '🎉 FINI!';
+            document.getElementById('fullscreenTime').innerHTML = '🎉 FINI!';
+            
+            if (document.getElementById('vibrationsActives').checked) {
+                vibrate([1000, 300, 1000, 300, 1000]);
+            }
+            
+            playSound();
+            
+            const messageFin = document.getElementById('messageFin').value || "C'est prêt, à table!";
+            sayMessage(messageFin);
+            showNotification(`🎉 ${messageFin}`);
+            
+            if (wakeLock) {
+                wakeLock.release();
+                wakeLock = null;
+            }
+            
+            // Flash écran
+            document.body.style.background = 'linear-gradient(135deg, #4CAF50 0%, #81C784 100%)';
+            setTimeout(() => {
+                document.body.style.background = 'linear-gradient(135deg, #FF6B35 0%, #F7931E 100%)';
+            }, 3000);
+        }
+        
+        // Plein écran
+        function toggleFullscreen() {
+            const fullscreen = document.getElementById('fullscreen');
+            if (fullscreen.style.display === 'flex') {
+                fullscreen.style.display = 'none';
+            } else {
+                fullscreen.style.display = 'flex';
+            }
+        }
+        
+        // Vibrations
+        function vibrate(pattern) {
+            if (document.getElementById('vibrationsActives').checked && navigator.vibrate) {
+                navigator.vibrate(pattern);
+            }
+        }
+        
+        // Son
+        function playSound() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1.5);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 1.5);
+            } catch (e) {
+                console.log('Audio non supporté');
+            }
+        }
+        
+        // Notifications
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            const text = document.getElementById('notificationText');
+            text.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+            
+            if (document.getElementById('notificationsActives').checked && 
+                'Notification' in window && Notification.permission === 'granted') {
+                new Notification('Minuteur Cuisine', { 
+                    body: message,
+                    icon: './icon-192.png'
+                });
+            }
+        }
+        
+        // Sauvegarde des réglages avec synchronisation en arrière-plan
+        function saveSettings() {
+            const settings = {
+                rappelPeriodique: document.getElementById('rappelPeriodique').checked,
+                rappelMinutes: document.getElementById('rappelMinutes').value,
+                messagePeriodique: document.getElementById('messagePeriodique').value,
+                rappelAvantFin: document.getElementById('rappelAvantFin').checked,
+                avantFinMinutes: document.getElementById('avantFinMinutes').value,
+                messageAvantFin: document.getElementById('messageAvantFin').value,
+                vocalActif: document.getElementById('vocalActif').checked,
+                volume: document.getElementById('volumeSlider').value,
+                vitesse: document.getElementById('speedSlider').value,
+                voiceIndex: document.getElementById('voiceSelect').value,
+                messageFin: document.getElementById('messageFin').value,
+                vibrationsActives: document.getElementById('vibrationsActives').checked,
+                notificationsActives: document.getElementById('notificationsActives').checked,
+                rappel1MinActif: document.getElementById('rappel1MinActif').checked,
+                lastSync: Date.now()
+            };
+            
+            try {
+                localStorage.setItem('minuteurSettings', JSON.stringify(settings));
+                
+                // Programmer une synchronisation en arrière-plan
+                if ('serviceWorker' in navigator && 'sync' in window.ServiceWorkerRegistration.prototype) {
+                    navigator.serviceWorker.ready.then(registration => {
+                        return registration.sync.register('background-sync');
+                    }).catch(err => console.log('Background sync non supporté'));
+                }
+            } catch (e) {
+                console.log('Erreur sauvegarde:', e);
+            }
+        }
+
+        function loadSettings() {
+            try {
+                const settings = JSON.parse(localStorage.getItem('minuteurSettings'));
+                if (settings) {
+                    document.getElementById('rappelPeriodique').checked = settings.rappelPeriodique || false;
+                    document.getElementById('rappelMinutes').value = settings.rappelMinutes || 10;
+                    document.getElementById('messagePeriodique').value = settings.messagePeriodique || "N'oublie pas de mélanger !";
+                    document.getElementById('rappelAvantFin').checked = settings.rappelAvantFin || false;
+                    document.getElementById('avantFinMinutes').value = settings.avantFinMinutes || 5;
+                    document.getElementById('messageAvantFin').value = settings.messageAvantFin || "N'oublie pas d'ajouter l'ingrédient !";
+                    document.getElementById('vocalActif').checked = settings.vocalActif !== undefined ? settings.vocalActif : true;
+                    document.getElementById('volumeSlider').value = settings.volume || 90;
+                    document.getElementById('speedSlider').value = settings.vitesse || 150;
+                    document.getElementById('messageFin').value = settings.messageFin || "C'est prêt, à table!";
+                    document.getElementById('vibrationsActives').checked = settings.vibrationsActives !== undefined ? settings.vibrationsActives : true;
+                    document.getElementById('notificationsActives').checked = settings.notificationsActives !== undefined ? settings.notificationsActives : true;
+                    document.getElementById('rappel1MinActif').checked = settings.rappel1MinActif !== undefined ? settings.rappel1MinActif : true;
+                    
+                    // Mettre à jour les affichages
+                    document.getElementById('volumeValue').textContent = settings.volume || 90;
+                    document.getElementById('speedValue').textContent = settings.vitesse || 150;
+                    
+                    // Restaurer la voix sélectionnée
+                    if (settings.voiceIndex && voicesLoaded) {
+                        document.getElementById('voiceSelect').value = settings.voiceIndex;
+                        const voices = speechSynthesis.getVoices();
+                        if (voices[settings.voiceIndex]) {
+                            currentVoice = voices[settings.voiceIndex];
+                        }
+                    }
+                }
+            } catch (e) {
+                console.log('Pas de réglages sauvegardés');
+            }
+        }
+
+        // Demander permissions notifications et enregistrer pour les notifications push
+        async function requestNotificationPermission() {
+            if ('Notification' in window) {
+                const permission = await Notification.requestPermission();
+                if (permission === 'granted') {
+                    console.log('Permission de notification accordée');
+                    
+                    // Enregistrer pour les notifications push si possible
+                    if ('serviceWorker' in navigator && 'PushManager' in window) {
+                        try {
+                            const registration = await navigator.serviceWorker.ready;
+                            
+                            // Vérifier si déjà abonné
+                            const existingSubscription = await registration.pushManager.getSubscription();
+                            if (!existingSubscription) {
+                                // S'abonner aux notifications push
+                                const subscription = await registration.pushManager.subscribe({
+                                    userVisibleOnly: true,
+                                    applicationServerKey: 'BNvjExV-Xfs_AepGKO9YG5XEyj4VtP6E0PoZWgZ_Tck_EQCJH7VfWpKHYXb4ZZ1-1qQ'
+                                });
+                                console.log('Abonnement push créé:', subscription);
+                            }
+                        } catch (error) {
+                            console.log('Push notifications non supportées:', error);
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Demander permission notifications
+        if ('Notification' in window && Notification.permission === 'default') {
+            // Attendre un peu avant de demander pour ne pas être intrusif
+            setTimeout(requestNotificationPermission, 5000);
+        }
+        
+        // Empêcher le zoom sur double-tap
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // Event listeners pour la sauvegarde
+        ['rappelPeriodique', 'rappelMinutes', 'messagePeriodique', 'rappelAvantFin', 
+         'avantFinMinutes', 'messageAvantFin', 'vocalActif', 'volumeSlider', 
+         'speedSlider', 'voiceSelect', 'messageFin', 'vibrationsActives', 
+         'notificationsActives', 'rappel1MinActif'].forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.addEventListener('change', saveSettings);
+                element.addEventListener('input', saveSettings);
+            }
+        });
+        
+        // Initialisation avec nettoyage au démarrage
+        window.addEventListener('load', () => {
+            // NETTOYAGE COMPLET au chargement
+            speechSynthesis.cancel();
+            console.log('PAGE CHARGÉE - Synthèse nettoyée');
+            
+            updateDisplay();
+            loadSettings();
+            
+            // Charger les voix après un délai si nécessaire
+            setTimeout(() => {
+                if (!voicesLoaded && speechSynthesis.getVoices().length > 0) {
+                    loadVoices();
+                    loadSettings(); // Recharger les réglages pour la voix
+                }
+            }, 1000);
+        });
+        
+        // Nettoyage supplémentaire au changement de visibilité de la page
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                // Page masquée - arrêter la synthèse
+                speechSynthesis.cancel();
+                console.log('PAGE MASQUÉE - Synthèse arrêtée');
+            }
+        });
+        
+        // Nettoyage avant fermeture de la page
+        window.addEventListener('beforeunload', () => {
+            speechSynthesis.cancel();
+            console.log('FERMETURE PAGE - Synthèse arrêtée');
+        });
+        
+        // Restaurer les voix sélectionnées après chargement
+        speechSynthesis.addEventListener('voiceschanged', () => {
+            if (!voicesLoaded) {
+                loadVoices();
+                loadSettings(); // Recharger les réglages pour la voix
+            }
+        });
+    </script>
+</body>
+</html>

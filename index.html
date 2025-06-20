@@ -478,13 +478,18 @@
     </div>
 
     <script>
-        // Variables globales
+        // Variables globales pour éviter les répétitions
         let timeLeft = 300, totalTime = 300, timerActive = false;
         let interval = null, isPaused = false, wakeLock = null;
         let nextRappelPeriodique = 0, rappelAvantFinDeclenche = false;
         let rappel1MinDeclenche = false;
         let rappel30SecDeclenche = false;
         let rappel10SecDeclenche = false;
+        
+        // NOUVEAU: Variables pour éviter les répétitions de messages
+        let lastRappelPeriodiqueTime = -1;
+        let lastRappelAvantFinTime = -1;
+        let lastRappel1MinTime = -1;
         
         // Variables pour la synthèse vocale
         let speechSynthesis = window.speechSynthesis;
@@ -657,38 +662,20 @@
             sayMessage(message);
         }
         
-        // Synthèse vocale améliorée
+        // Synthèse vocale - VERSION ULTRA-SÉCURISÉE
         function sayMessage(message) {
             if (!document.getElementById('vocalActif').checked) return;
             
-            // Arrêter toute synthèse en cours
+            console.log('Demande message vocal:', message, 'Time:', timeLeft);
+            
+            // Arrêter IMMÉDIATEMENT toute synthèse en cours
             speechSynthesis.cancel();
             
-            // Vider la file d'attente si elle devient trop longue
-            if (messageQueue.length > 2) {
-                messageQueue = []; // Nettoyer complètement
-                isPlaying = false;
-            }
+            // Nettoyer complètement la file d'attente
+            messageQueue = [];
+            isPlaying = false;
             
-            messageQueue.push(message);
-            if (!isPlaying) {
-                processVoiceQueue();
-            }
-        }
-        
-        function processVoiceQueue() {
-            if (messageQueue.length === 0) {
-                isPlaying = false;
-                return;
-            }
-            
-            isPlaying = true;
-            const message = messageQueue.shift();
-            
-            // Double sécurité : arrêter toute synthèse en cours
-            speechSynthesis.cancel();
-            
-            // Attendre un peu avant de commencer la nouvelle synthèse
+            // Attendre que la synthèse soit vraiment arrêtée
             setTimeout(() => {
                 const utterance = new SpeechSynthesisUtterance(message);
                 
@@ -699,22 +686,33 @@
                 utterance.rate = document.getElementById('speedSlider').value / 150;
                 utterance.volume = document.getElementById('volumeSlider').value / 100;
                 
-                utterance.onend = () => {
-                    setTimeout(() => processVoiceQueue(), 500); // Pause plus longue entre messages
+                utterance.onstart = () => {
+                    console.log('Début synthèse:', message);
+                    isPlaying = true;
                 };
                 
-                utterance.onerror = () => {
-                    console.log('Erreur synthèse vocale');
-                    setTimeout(() => processVoiceQueue(), 500);
+                utterance.onend = () => {
+                    console.log('Fin synthèse:', message);
+                    isPlaying = false;
+                };
+                
+                utterance.onerror = (e) => {
+                    console.log('Erreur synthèse:', e);
+                    isPlaying = false;
                 };
                 
                 try {
                     speechSynthesis.speak(utterance);
                 } catch (e) {
                     console.log('Erreur speak:', e);
-                    setTimeout(() => processVoiceQueue(), 500);
+                    isPlaying = false;
                 }
-            }, 100); // Petite pause avant de commencer
+            }, 200); // Pause de sécurité
+        }
+        
+        // Supprimer l'ancienne fonction processVoiceQueue car on n'en a plus besoin
+        function processVoiceQueue() {
+            // Fonction supprimée - on utilise maintenant la synthèse directe
         }
         
         // Démarrage du minuteur
@@ -732,11 +730,16 @@
                     return;
                 }
 
-                // Configuration des rappels
+                // RÉINITIALISER TOUS LES RAPPELS
                 rappel1MinDeclenche = false;
                 rappelAvantFinDeclenche = false;
                 rappel30SecDeclenche = false;
                 rappel10SecDeclenche = false;
+                
+                // NOUVEAU: Réinitialiser les temps de rappels
+                lastRappelPeriodiqueTime = -1;
+                lastRappelAvantFinTime = -1;
+                lastRappel1MinTime = -1;
                 
                 if (document.getElementById('rappelPeriodique').checked) {
                     const intervalle = parseInt(document.getElementById('rappelMinutes').value) * 60;
@@ -809,30 +812,35 @@
             sayMessage(message);
         }
         
-        // Vérification des rappels
+        // Vérification des rappels - VERSION CORRIGÉE
         function checkRappels() {
-            // Rappel périodique
+            // Rappel périodique - CORRECTION: vérifier qu'on n'a pas déjà parlé à ce moment
             if (document.getElementById('rappelPeriodique').checked && 
                 nextRappelPeriodique >= 0 &&
                 timeLeft <= nextRappelPeriodique && 
-                timeLeft > 60) {
+                timeLeft > 60 &&
+                lastRappelPeriodiqueTime !== timeLeft) { // NOUVELLE CONDITION
                 
                 const message = document.getElementById('messagePeriodique').value || "N'oublie pas de mélanger !";
                 sayMessage(message);
                 showNotification(`🔔 ${message}`);
                 vibrate([300, 100, 300]);
                 
+                // Marquer ce temps comme traité
+                lastRappelPeriodiqueTime = timeLeft;
+                
                 const intervalle = parseInt(document.getElementById('rappelMinutes').value) * 60;
                 nextRappelPeriodique = nextRappelPeriodique - intervalle;
                 if (nextRappelPeriodique < 60) {
-                    nextRappelPeriodique = -1; // Désactiver complètement
+                    nextRappelPeriodique = -1;
                 }
             }
             
-            // Rappel avant la fin - CORRECTION: vérifier la seconde exacte
+            // Rappel avant la fin - CORRECTION: utiliser un système de temps unique
+            const avantFinSecondes = parseInt(document.getElementById('avantFinMinutes').value) * 60;
             if (document.getElementById('rappelAvantFin').checked && 
-                !rappelAvantFinDeclenche &&
-                timeLeft === parseInt(document.getElementById('avantFinMinutes').value) * 60) {
+                timeLeft === avantFinSecondes &&
+                lastRappelAvantFinTime !== timeLeft) { // NOUVELLE CONDITION
                 
                 const message = document.getElementById('messageAvantFin').value || "Action requise avant la fin!";
                 const minutesRestantes = Math.ceil(timeLeft / 60);
@@ -841,18 +849,22 @@
                 sayMessage(messageComplet);
                 showNotification(`⚠️ ${message}`);
                 vibrate([200, 100, 200, 100, 200]);
-                rappelAvantFinDeclenche = true;
+                
+                // Marquer ce temps comme traité
+                lastRappelAvantFinTime = timeLeft;
             }
             
-            // Rappel 1 minute (si activé) - CORRECTION: vérifier la seconde exacte
+            // Rappel 1 minute - CORRECTION: système de temps unique
             if (document.getElementById('rappel1MinActif').checked && 
-                !rappel1MinDeclenche &&
-                timeLeft === 60) {
+                timeLeft === 60 &&
+                lastRappel1MinTime !== timeLeft) { // NOUVELLE CONDITION
                 
                 sayMessage("Plus qu'une minute !");
                 showNotification("⏰ Plus qu'une minute !");
                 vibrate([300, 150, 300]);
-                rappel1MinDeclenche = true;
+                
+                // Marquer ce temps comme traité
+                lastRappel1MinTime = timeLeft;
             }
             
             // Rappel 30 secondes

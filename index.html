@@ -437,6 +437,9 @@
                 </select>
                 
                 <button class="test-btn" onclick="testVoice()">🎤 Tester la voix</button>
+                <button class="test-btn" onclick="emergencyStopVoice()" style="background: linear-gradient(135deg, #f44336, #d32f2f); margin-top: 5px;">
+                    🚨 ARRÊT D'URGENCE VOCAL
+                </button>
             </div>
             
             <div class="options-section">
@@ -478,7 +481,7 @@
     </div>
 
     <script>
-        // Variables globales avec contrôle de session
+        // Variables globales avec contrôle mobile spécifique
         let timeLeft = 300, totalTime = 300, timerActive = false;
         let interval = null, isPaused = false, wakeLock = null;
         let nextRappelPeriodique = 0, rappelAvantFinDeclenche = false;
@@ -486,10 +489,13 @@
         let rappel30SecDeclenche = false;
         let rappel10SecDeclenche = false;
         
-        // SYSTÈME ANTI-BOUCLE RENFORCÉ
-        let sessionId = Date.now(); // ID unique de session
-        let messagesEnvoyes = new Set(); // Stockage des messages déjà envoyés
-        let lastVoiceTime = 0; // Timestamp du dernier message vocal
+        // SYSTÈME ANTI-BOUCLE MOBILE RENFORCÉ
+        let sessionId = Date.now();
+        let messagesEnvoyes = new Set();
+        let lastVoiceTime = 0;
+        let currentUtterance = null; // Référence à l'utterance en cours
+        let isSpeaking = false; // Flag manuel pour mobile
+        let speechBlocked = false; // Blocage d'urgence
         
         // Variables pour la synthèse vocale
         let speechSynthesis = window.speechSynthesis;
@@ -662,69 +668,134 @@
             sayMessage(message);
         }
         
-        // Synthèse vocale - VERSION ANTI-BOUCLE ABSOLUE
+        // FONCTION D'URGENCE pour mobile
+        function emergencyStopVoice() {
+            console.log('MOBILE: ARRÊT D\'URGENCE VOCAL');
+            speechBlocked = true;
+            
+            try {
+                // Arrêt brutal multiple
+                speechSynthesis.cancel();
+                speechSynthesis.cancel();
+                speechSynthesis.cancel();
+                
+                if (currentUtterance) {
+                    currentUtterance = null;
+                }
+                isSpeaking = false;
+                messagesEnvoyes.clear();
+                
+                // Nouvelle session pour reset complet
+                sessionId = Date.now();
+                
+                showNotification('🚨 Synthèse vocale arrêtée d\'urgence !');
+                
+                // Débloquer après 2 secondes
+                setTimeout(() => {
+                    speechBlocked = false;
+                    console.log('MOBILE: Synthèse débloquée');
+                }, 2000);
+                
+            } catch (e) {
+                console.log('MOBILE: Erreur arrêt urgence:', e);
+            }
+        }
+        
+        // Synthèse vocale - VERSION MOBILE ANTI-BOUCLE
         function sayMessage(message) {
-            if (!document.getElementById('vocalActif').checked) return;
+            if (!document.getElementById('vocalActif').checked || speechBlocked) return;
             
             const now = Date.now();
             const messageKey = `${sessionId}_${timeLeft}_${message}`;
             
-            // Vérifier si ce message a déjà été envoyé
+            // Vérifications renforcées pour mobile
             if (messagesEnvoyes.has(messageKey)) {
-                console.log('Message déjà envoyé, ignoré:', message);
+                console.log('MOBILE: Message déjà envoyé, ignoré:', message);
                 return;
             }
             
-            // Vérifier qu'on n'envoie pas trop de messages rapprochés
-            if (now - lastVoiceTime < 2000) { // Minimum 2 secondes entre messages
-                console.log('Message trop rapproché, ignoré:', message);
+            if (now - lastVoiceTime < 3000) { // 3 secondes minimum sur mobile
+                console.log('MOBILE: Message trop rapproché, ignoré:', message);
                 return;
             }
             
-            // Marquer ce message comme envoyé
+            if (isSpeaking) {
+                console.log('MOBILE: Synthèse en cours, ignoré:', message);
+                return;
+            }
+            
+            // Marquer comme envoyé AVANT de commencer
             messagesEnvoyes.add(messageKey);
             lastVoiceTime = now;
+            isSpeaking = true;
             
-            console.log('ENVOI MESSAGE VOCAL:', message, 'Time:', timeLeft, 'Key:', messageKey);
+            console.log('MOBILE: ENVOI MESSAGE:', message, 'Time:', timeLeft);
             
-            // FORCER l'arrêt de toute synthèse
-            speechSynthesis.cancel();
-            
-            // Triple sécurité avec timeout
-            setTimeout(() => {
+            // ARRÊT BRUTAL pour mobile
+            try {
                 speechSynthesis.cancel();
+                if (currentUtterance) {
+                    currentUtterance = null;
+                }
+            } catch (e) {
+                console.log('MOBILE: Erreur cancel:', e);
+            }
+            
+            // Délai plus long pour mobile
+            setTimeout(() => {
+                if (!document.getElementById('vocalActif').checked || speechBlocked) {
+                    isSpeaking = false;
+                    return;
+                }
                 
-                setTimeout(() => {
-                    if (!document.getElementById('vocalActif').checked) return;
+                try {
+                    speechSynthesis.cancel(); // Second nettoyage
                     
-                    const utterance = new SpeechSynthesisUtterance(message);
+                    currentUtterance = new SpeechSynthesisUtterance(message);
                     
                     if (currentVoice) {
-                        utterance.voice = currentVoice;
+                        currentUtterance.voice = currentVoice;
                     }
                     
-                    utterance.rate = document.getElementById('speedSlider').value / 150;
-                    utterance.volume = document.getElementById('volumeSlider').value / 100;
+                    currentUtterance.rate = document.getElementById('speedSlider').value / 150;
+                    currentUtterance.volume = document.getElementById('volumeSlider').value / 100;
                     
-                    utterance.onstart = () => {
-                        console.log('DÉBUT SYNTHÈSE:', message);
+                    // Gestion des événements renforcée pour mobile
+                    currentUtterance.onstart = () => {
+                        console.log('MOBILE: DÉBUT SYNTHÈSE:', message);
+                        isSpeaking = true;
                     };
                     
-                    utterance.onend = () => {
-                        console.log('FIN SYNTHÈSE:', message);
+                    currentUtterance.onend = () => {
+                        console.log('MOBILE: FIN SYNTHÈSE:', message);
+                        isSpeaking = false;
+                        currentUtterance = null;
                     };
                     
-                    utterance.onerror = (e) => {
-                        console.log('ERREUR SYNTHÈSE:', e, message);
+                    currentUtterance.onerror = (e) => {
+                        console.log('MOBILE: ERREUR SYNTHÈSE:', e, message);
+                        isSpeaking = false;
+                        currentUtterance = null;
                     };
                     
-                    try {
-                        speechSynthesis.speak(utterance);
-                    } catch (e) {
-                        console.log('ERREUR SPEAK:', e);
-                    }
-                }, 100);
-            }, 200);
+                    // Timeout de sécurité pour mobile (synthèse bloquée)
+                    setTimeout(() => {
+                        if (isSpeaking && currentUtterance) {
+                            console.log('MOBILE: TIMEOUT - Forçage arrêt synthèse');
+                            speechSynthesis.cancel();
+                            isSpeaking = false;
+                            currentUtterance = null;
+                        }
+                    }, 10000); // 10 secondes max
+                    
+                    speechSynthesis.speak(currentUtterance);
+                    
+                } catch (e) {
+                    console.log('MOBILE: ERREUR SPEAK:', e);
+                    isSpeaking = false;
+                    currentUtterance = null;
+                }
+            }, 500); // Délai plus long pour mobile
         }
         
         // Supprimer l'ancienne fonction processVoiceQueue car on n'en a plus besoin
@@ -732,7 +803,7 @@
             // Fonction supprimée - on utilise maintenant la synthèse directe
         }
         
-        // Démarrage du minuteur avec nettoyage complet
+        // Démarrage du minuteur avec nettoyage mobile complet
         async function startTimer() {
             if (!timerActive && !isPaused) {
                 const h = parseInt(document.getElementById('hours').value);
@@ -747,11 +818,20 @@
                     return;
                 }
 
-                // NETTOYAGE COMPLET DE TOUT
-                speechSynthesis.cancel();
-                messagesEnvoyes.clear(); // Vider le cache des messages
-                sessionId = Date.now(); // Nouveau ID de session
-                lastVoiceTime = 0;
+                // NETTOYAGE MOBILE COMPLET
+                speechBlocked = true; // Bloquer pendant le reset
+                try {
+                    speechSynthesis.cancel();
+                    if (currentUtterance) {
+                        currentUtterance = null;
+                    }
+                    isSpeaking = false;
+                    messagesEnvoyes.clear();
+                    sessionId = Date.now();
+                    lastVoiceTime = 0;
+                } catch (e) {
+                    console.log('MOBILE: Erreur nettoyage start:', e);
+                }
                 
                 // Réinitialiser tous les rappels
                 rappel1MinDeclenche = false;
@@ -763,17 +843,21 @@
                     const intervalle = parseInt(document.getElementById('rappelMinutes').value) * 60;
                     nextRappelPeriodique = timeLeft - intervalle;
                     if (nextRappelPeriodique <= 60) {
-                        nextRappelPeriodique = 0; // Pas de rappel périodique si trop court
+                        nextRappelPeriodique = 0;
                     }
                 } else {
                     nextRappelPeriodique = 0;
                 }
                 
-                console.log('NOUVEAU MINUTEUR:', timeLeft, 'secondes, Session:', sessionId);
-                console.log('Rappel périodique prévu à:', nextRappelPeriodique);
+                console.log('MOBILE: NOUVEAU MINUTEUR:', timeLeft, 'secondes, Session:', sessionId);
                 
-                // Générer message de démarrage
-                generateStartMessage(h, m, s);
+                // Débloquer la synthèse après reset
+                speechBlocked = false;
+                
+                // Générer message de démarrage après délai
+                setTimeout(() => {
+                    generateStartMessage(h, m, s);
+                }, 500);
             }
             
             if (!timerActive) {
@@ -906,7 +990,7 @@
             }
         }
         
-        // Pause/reprise et arrêt avec nettoyage absolu
+        // Pause/reprise et arrêt avec nettoyage mobile absolu
         function pauseTimer() {
             if (timerActive) {
                 timerActive = false;
@@ -915,15 +999,25 @@
                 document.getElementById('status').innerHTML = '⏸️ En pause';
                 document.getElementById('pauseBtn').innerHTML = '▶️ REPRENDRE';
                 
-                // NETTOYAGE COMPLET lors de la pause
-                speechSynthesis.cancel();
-                console.log('PAUSE - Synthèse arrêtée');
+                // NETTOYAGE MOBILE RENFORCÉ
+                speechBlocked = true; // Bloquer toute nouvelle synthèse
+                try {
+                    speechSynthesis.cancel();
+                    if (currentUtterance) {
+                        currentUtterance = null;
+                    }
+                    isSpeaking = false;
+                } catch (e) {
+                    console.log('MOBILE: Erreur nettoyage pause:', e);
+                }
+                console.log('MOBILE: PAUSE - Synthèse bloquée');
                 
                 if (wakeLock) {
                     wakeLock.release();
                     wakeLock = null;
                 }
             } else if (isPaused) {
+                speechBlocked = false; // Débloquer
                 startTimer();
             }
         }
@@ -938,11 +1032,26 @@
             document.getElementById('status').innerHTML = '⏹️ Arrêté';
             document.getElementById('pauseBtn').innerHTML = '⏸️ PAUSE';
             
-            // NETTOYAGE ABSOLU lors de l'arrêt
-            speechSynthesis.cancel();
-            messagesEnvoyes.clear();
-            sessionId = Date.now(); // Nouvelle session
-            console.log('STOP - Tout nettoyé, nouvelle session:', sessionId);
+            // NETTOYAGE MOBILE ABSOLU
+            speechBlocked = true; // Bloquer immédiatement
+            try {
+                speechSynthesis.cancel();
+                if (currentUtterance) {
+                    currentUtterance = null;
+                }
+                isSpeaking = false;
+                messagesEnvoyes.clear();
+                sessionId = Date.now(); // Nouvelle session
+            } catch (e) {
+                console.log('MOBILE: Erreur nettoyage stop:', e);
+            }
+            
+            // Débloquer après nettoyage
+            setTimeout(() => {
+                speechBlocked = false;
+            }, 1000);
+            
+            console.log('MOBILE: STOP - Tout nettoyé, nouvelle session:', sessionId);
             
             // Réinitialiser tous les rappels
             rappel1MinDeclenche = false;

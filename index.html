@@ -657,13 +657,17 @@
             sayMessage(message);
         }
         
-        // Synthèse vocale
+        // Synthèse vocale améliorée
         function sayMessage(message) {
             if (!document.getElementById('vocalActif').checked) return;
             
-            // Limiter la queue à 3 messages max pour éviter l'accumulation
-            if (messageQueue.length > 3) {
-                messageQueue = messageQueue.slice(-2);
+            // Arrêter toute synthèse en cours
+            speechSynthesis.cancel();
+            
+            // Vider la file d'attente si elle devient trop longue
+            if (messageQueue.length > 2) {
+                messageQueue = []; // Nettoyer complètement
+                isPlaying = false;
             }
             
             messageQueue.push(message);
@@ -681,33 +685,36 @@
             isPlaying = true;
             const message = messageQueue.shift();
             
-            // Arrêter toute synthèse en cours
+            // Double sécurité : arrêter toute synthèse en cours
             speechSynthesis.cancel();
             
-            const utterance = new SpeechSynthesisUtterance(message);
-            
-            if (currentVoice) {
-                utterance.voice = currentVoice;
-            }
-            
-            utterance.rate = document.getElementById('speedSlider').value / 150;
-            utterance.volume = document.getElementById('volumeSlider').value / 100;
-            
-            utterance.onend = () => {
-                setTimeout(() => processVoiceQueue(), 300);
-            };
-            
-            utterance.onerror = () => {
-                console.log('Erreur synthèse vocale');
-                setTimeout(() => processVoiceQueue(), 300);
-            };
-            
-            try {
-                speechSynthesis.speak(utterance);
-            } catch (e) {
-                console.log('Erreur speak:', e);
-                setTimeout(() => processVoiceQueue(), 300);
-            }
+            // Attendre un peu avant de commencer la nouvelle synthèse
+            setTimeout(() => {
+                const utterance = new SpeechSynthesisUtterance(message);
+                
+                if (currentVoice) {
+                    utterance.voice = currentVoice;
+                }
+                
+                utterance.rate = document.getElementById('speedSlider').value / 150;
+                utterance.volume = document.getElementById('volumeSlider').value / 100;
+                
+                utterance.onend = () => {
+                    setTimeout(() => processVoiceQueue(), 500); // Pause plus longue entre messages
+                };
+                
+                utterance.onerror = () => {
+                    console.log('Erreur synthèse vocale');
+                    setTimeout(() => processVoiceQueue(), 500);
+                };
+                
+                try {
+                    speechSynthesis.speak(utterance);
+                } catch (e) {
+                    console.log('Erreur speak:', e);
+                    setTimeout(() => processVoiceQueue(), 500);
+                }
+            }, 100); // Petite pause avant de commencer
         }
         
         // Démarrage du minuteur
@@ -822,10 +829,10 @@
                 }
             }
             
-            // Rappel avant la fin
+            // Rappel avant la fin - CORRECTION: vérifier la seconde exacte
             if (document.getElementById('rappelAvantFin').checked && 
                 !rappelAvantFinDeclenche &&
-                timeLeft <= parseInt(document.getElementById('avantFinMinutes').value) * 60) {
+                timeLeft === parseInt(document.getElementById('avantFinMinutes').value) * 60) {
                 
                 const message = document.getElementById('messageAvantFin').value || "Action requise avant la fin!";
                 const minutesRestantes = Math.ceil(timeLeft / 60);
@@ -837,10 +844,10 @@
                 rappelAvantFinDeclenche = true;
             }
             
-            // Rappel 1 minute (si activé)
+            // Rappel 1 minute (si activé) - CORRECTION: vérifier la seconde exacte
             if (document.getElementById('rappel1MinActif').checked && 
                 !rappel1MinDeclenche &&
-                timeLeft <= 60 && timeLeft > 30) {
+                timeLeft === 60) {
                 
                 sayMessage("Plus qu'une minute !");
                 showNotification("⏰ Plus qu'une minute !");
@@ -872,6 +879,11 @@
                 document.getElementById('status').innerHTML = '⏸️ En pause';
                 document.getElementById('pauseBtn').innerHTML = '▶️ REPRENDRE';
                 
+                // Arrêter la synthèse vocale lors de la pause
+                speechSynthesis.cancel();
+                messageQueue = [];
+                isPlaying = false;
+                
                 if (wakeLock) {
                     wakeLock.release();
                     wakeLock = null;
@@ -891,6 +903,11 @@
             document.getElementById('progress').style.width = '0%';
             document.getElementById('status').innerHTML = '⏹️ Arrêté';
             document.getElementById('pauseBtn').innerHTML = '⏸️ PAUSE';
+            
+            // Nettoyer complètement la synthèse vocale
+            speechSynthesis.cancel();
+            messageQueue = [];
+            isPlaying = false;
             
             // Réinitialiser les rappels
             rappel1MinDeclenche = false;

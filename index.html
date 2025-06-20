@@ -10,6 +10,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Minuteur Cuisine">
     
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3379732632438907"
+         crossorigin="anonymous"></script>
+    
     <style>
         * {
             margin: 0; padding: 0; box-sizing: border-box;
@@ -103,13 +107,18 @@
             padding: 10px; background: rgba(255,255,255,0.15);
             border-radius: 10px; font-weight: 500; }
         
+        .adsense-banner { text-align: center; margin-top: 10px;
+            padding: 8px; background: rgba(255,255,255,0.1);
+            border-radius: 10px; min-height: 60px; 
+            display: flex; align-items: center; justify-content: center; }
+        
         .advanced-controls { background: rgba(255,255,255,0.1); border-radius: 15px;
             padding: 12px; margin: 10px 0; }
         
         .advanced-title { font-size: 1em; font-weight: bold; margin-bottom: 8px;
             text-align: center; }
         
-        .rappel-config { display: grid; grid-template-columns: auto 1fr; gap: 8px;
+        .rappel-config { display: grid; grid-template-columns: auto auto auto 1fr; gap: 8px;
             align-items: center; margin-bottom: 8px; }
         
         .checkbox { width: 18px; height: 18px; margin-right: 5px; }
@@ -347,13 +356,10 @@
             </div>
 
             <div class="advanced-controls">
-                <div class="advanced-title">🔔 Rappel périodique</div>
                 <div class="rappel-config">
                     <input type="checkbox" id="rappelPeriodique" class="checkbox">
                     <label for="rappelPeriodique" style="font-size: 0.85em;">Rappel toutes les</label>
-                </div>
-                <div class="rappel-config">
-                    <select id="rappelMinutes" class="rappel-input">
+                    <select id="rappelMinutes" class="rappel-input" style="width: 70px;">
                         <option value="1">1 min</option>
                         <option value="2">2 min</option>
                         <option value="3">3 min</option>
@@ -379,19 +385,13 @@
                         <option value="45">45 min</option>
                         <option value="60">60 min</option>
                     </select>
-                    <span style="font-size: 0.85em;"></span>
                 </div>
-                <input type="text" id="messagePeriodique" class="custom-message" placeholder="Message personnalisé..." value="N'oublie pas de mélanger !">
-            </div>
-            
-            <div class="advanced-controls">
-                <div class="advanced-title">⚠️ Rappel avant la fin</div>
+                <input type="text" id="messagePeriodique" class="custom-message" placeholder="Message personnalisé..." value="N'oublie pas de mélanger !" style="margin-bottom: 15px;">
+                
                 <div class="rappel-config">
                     <input type="checkbox" id="rappelAvantFin" class="checkbox">
                     <label for="rappelAvantFin" style="font-size: 0.85em;">Rappel</label>
-                </div>
-                <div class="rappel-config">
-                    <select id="avantFinMinutes" class="rappel-input">
+                    <select id="avantFinMinutes" class="rappel-input" style="width: 70px;">
                         <option value="1">1 min</option>
                         <option value="2">2 min</option>
                         <option value="3">3 min</option>
@@ -424,6 +424,16 @@
             </div>
             
             <div class="status" id="status">🔥 Prêt à démarrer</div>
+            
+            <!-- Bannière publicitaire AdSense -->
+            <div class="adsense-banner">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-3379732632438907"
+                     data-ad-slot="AUTO"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+            </div>
         </div>
         
         <!-- Onglet Options -->
@@ -496,6 +506,8 @@
         let interval = null, isPaused = false, wakeLock = null;
         let nextRappelPeriodique = 0, rappelAvantFinDeclenche = false;
         let rappel1MinDeclenche = false;
+        let rappel30SecDeclenche = false;
+        let rappel10SecDeclenche = false;
         
         // Variables pour la synthèse vocale
         let speechSynthesis = window.speechSynthesis;
@@ -726,6 +738,8 @@
                 // Configuration des rappels
                 rappel1MinDeclenche = false;
                 rappelAvantFinDeclenche = false;
+                rappel30SecDeclenche = false;
+                rappel10SecDeclenche = false;
                 
                 if (document.getElementById('rappelPeriodique').checked) {
                     const intervalle = parseInt(document.getElementById('rappelMinutes').value) * 60;
@@ -836,7 +850,7 @@
             // Rappel 1 minute (si activé)
             if (document.getElementById('rappel1MinActif').checked && 
                 !rappel1MinDeclenche &&
-                timeLeft <= 60 && timeLeft > 0) {
+                timeLeft <= 60 && timeLeft > 30) {
                 
                 sayMessage("Plus qu'une minute !");
                 showNotification("⏰ Plus qu'une minute !");
@@ -844,13 +858,18 @@
                 rappel1MinDeclenche = true;
             }
             
-            // Rappels standards
-            if (timeLeft === 30) {
+            // Rappel 30 secondes
+            if (!rappel30SecDeclenche && timeLeft === 30) {
                 showNotification('⚡ 30 secondes!');
                 vibrate([200, 100, 200]);
-            } else if (timeLeft === 10) {
+                rappel30SecDeclenche = true;
+            }
+            
+            // Rappel 10 secondes
+            if (!rappel10SecDeclenche && timeLeft === 10) {
                 showNotification('🚨 10 secondes!');
                 vibrate([100, 50, 100, 50, 100]);
+                rappel10SecDeclenche = true;
             }
         }
         
@@ -886,6 +905,8 @@
             // Réinitialiser les rappels
             rappel1MinDeclenche = false;
             rappelAvantFinDeclenche = false;
+            rappel30SecDeclenche = false;
+            rappel10SecDeclenche = false;
             
             if (wakeLock) {
                 wakeLock.release();
@@ -1076,6 +1097,13 @@
         window.addEventListener('load', () => {
             updateDisplay();
             loadSettings();
+            
+            // Initialiser AdSense
+            try {
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            } catch (e) {
+                console.log('AdSense non chargé');
+            }
             
             // Charger les voix après un délai si nécessaire
             setTimeout(() => {

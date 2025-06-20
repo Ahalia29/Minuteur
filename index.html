@@ -10,10 +10,6 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Minuteur Cuisine">
     
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3379732632438907"
-         crossorigin="anonymous"></script>
-    
     <style>
         * {
             margin: 0; padding: 0; box-sizing: border-box;
@@ -107,11 +103,6 @@
             padding: 10px; background: rgba(255,255,255,0.15);
             border-radius: 10px; font-weight: 500; }
         
-        .adsense-banner { text-align: center; margin-top: 10px;
-            padding: 8px; background: rgba(255,255,255,0.1);
-            border-radius: 10px; min-height: 60px; 
-            display: flex; align-items: center; justify-content: center; }
-        
         .advanced-controls { background: rgba(255,255,255,0.1); border-radius: 15px;
             padding: 12px; margin: 10px 0; }
         
@@ -183,7 +174,7 @@
     <div class="container">
         <div class="header">
             <div class="title">⏰ MINUTEUR CUISINE</div>
-            <div class="subtitle">Pro - Nicolas Steiner 2025</div>
+            <div class="subtitle">@ Nicolas Steiner 2025</div>
         </div>
         
         <div class="tabs">
@@ -222,12 +213,12 @@
                         <option value="23">23 H</option>
                     </select>
                     <select class="time-input" id="minutes">
-                        <option value="0">0 M</option>
+                        <option value="0" selected>0 M</option>
                         <option value="1">1 M</option>
                         <option value="2">2 M</option>
                         <option value="3">3 M</option>
                         <option value="4">4 M</option>
-                        <option value="5" selected>5 M</option>
+                        <option value="5">5 M</option>
                         <option value="6">6 M</option>
                         <option value="7">7 M</option>
                         <option value="8">8 M</option>
@@ -348,10 +339,10 @@
                 </div>
                 
                 <div class="presets">
-                    <button class="preset-btn" onclick="setTime(0,3,0)">🥚 Œuf coque 3min</button>
-                    <button class="preset-btn" onclick="setTime(0,6,0)">🥚 Œuf mollet 6min</button>
-                    <button class="preset-btn" onclick="setTime(0,9,0)">🥚 Œuf dur 9min</button>
-                    <button class="preset-btn" onclick="setTime(0,25,0)">🥧 Quiche 25min</button>
+                    <button class="preset-btn" onclick="setTime(0,3,0)">🥚 Œuf coque 3 mn</button>
+                    <button class="preset-btn" onclick="setTime(0,6,0)">🥚 Œuf mollet 6 mn</button>
+                    <button class="preset-btn" onclick="setTime(0,9,0)">🥚 Œuf dur 9 mn</button>
+                    <button class="preset-btn" onclick="setTime(0,25,0)">🥧 Quiche 23 mn</button>
                 </div>
             </div>
 
@@ -360,29 +351,17 @@
                     <input type="checkbox" id="rappelPeriodique" class="checkbox">
                     <label for="rappelPeriodique" style="font-size: 0.85em;">Rappel toutes les</label>
                     <select id="rappelMinutes" class="rappel-input" style="width: 70px;">
-                        <option value="1">1 min</option>
-                        <option value="2">2 min</option>
-                        <option value="3">3 min</option>
-                        <option value="4">4 min</option>
-                        <option value="5">5 min</option>
-                        <option value="6">6 min</option>
-                        <option value="7">7 min</option>
-                        <option value="8">8 min</option>
-                        <option value="9">9 min</option>
+                        <option value="0">0 min</option>                        <option value="5">5 min</option>
                         <option value="10" selected>10 min</option>
-                        <option value="11">11 min</option>
-                        <option value="12">12 min</option>
-                        <option value="13">13 min</option>
-                        <option value="14">14 min</option>
                         <option value="15">15 min</option>
-                        <option value="16">16 min</option>
-                        <option value="17">17 min</option>
-                        <option value="18">18 min</option>
-                        <option value="19">19 min</option>
                         <option value="20">20 min</option>
                         <option value="25">25 min</option>
                         <option value="30">30 min</option>
+                        <option value="35">35 min</option>
+                        <option value="40">40 min</option>
                         <option value="45">45 min</option>
+                        <option value="50">50 min</option>
+                        <option value="55">55 min</option>
                         <option value="60">60 min</option>
                     </select>
                 </div>
@@ -392,19 +371,18 @@
                     <input type="checkbox" id="rappelAvantFin" class="checkbox">
                     <label for="rappelAvantFin" style="font-size: 0.85em;">Rappel</label>
                     <select id="avantFinMinutes" class="rappel-input" style="width: 70px;">
-                        <option value="1">1 min</option>
-                        <option value="2">2 min</option>
-                        <option value="3">3 min</option>
-                        <option value="4">4 min</option>
-                        <option value="5" selected>5 min</option>
-                        <option value="6">6 min</option>
-                        <option value="7">7 min</option>
-                        <option value="8">8 min</option>
-                        <option value="9">9 min</option>
+                        <option value="0" selected>0 min</option>                        <option value="5">5 min</option>
                         <option value="10">10 min</option>
                         <option value="15">15 min</option>
                         <option value="20">20 min</option>
+                        <option value="25">25 min</option>
                         <option value="30">30 min</option>
+                        <option value="35">35 min</option>
+                        <option value="40">40 min</option>
+                        <option value="45">45 min</option>
+                        <option value="50">50 min</option>
+                        <option value="55">55 min</option>
+                        <option value="60">60 min</option>
                     </select>
                     <span style="font-size: 0.85em;">avant la fin</span>
                 </div>
@@ -424,16 +402,6 @@
             </div>
             
             <div class="status" id="status">🔥 Prêt à démarrer</div>
-            
-            <!-- Bannière publicitaire AdSense -->
-            <div class="adsense-banner">
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="ca-pub-3379732632438907"
-                     data-ad-slot="AUTO"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
-            </div>
         </div>
         
         <!-- Onglet Options -->
@@ -554,41 +522,21 @@
             }
         }
         
-        // Service Worker amélioré
+        // Service Worker
         if ('serviceWorker' in navigator) {
             const swCode = `
-                const CACHE_NAME = 'minuteur-cuisine-v4';
-                const urlsToCache = [
-                    './',
-                    './index.html'
-                ];
-
                 self.addEventListener('install', event => {
                     event.waitUntil(
-                        caches.open(CACHE_NAME)
-                            .then(cache => cache.addAll(urlsToCache))
+                        caches.open('minuteur-v3').then(cache => {
+                            return cache.addAll(['./']);
+                        })
                     );
                 });
-
+                
                 self.addEventListener('fetch', event => {
                     event.respondWith(
-                        caches.match(event.request)
-                            .then(response => {
-                                return response || fetch(event.request);
-                            })
-                    );
-                });
-
-                self.addEventListener('activate', event => {
-                    event.waitUntil(
-                        caches.keys().then(cacheNames => {
-                            return Promise.all(
-                                cacheNames.map(cacheName => {
-                                    if (cacheName !== CACHE_NAME) {
-                                        return caches.delete(cacheName);
-                                    }
-                                })
-                            );
+                        caches.match(event.request).then(response => {
+                            return response || fetch(event.request);
                         })
                     );
                 });
@@ -596,14 +544,7 @@
             
             const blob = new Blob([swCode], { type: 'application/javascript' });
             const swUrl = URL.createObjectURL(blob);
-            
-            navigator.serviceWorker.register(swUrl)
-                .then(registration => {
-                    console.log('Service Worker registered');
-                })
-                .catch(error => {
-                    console.log('Service Worker registration failed');
-                });
+            navigator.serviceWorker.register(swUrl);
         }
         
         // PWA Installation
@@ -1124,13 +1065,6 @@
         window.addEventListener('load', () => {
             updateDisplay();
             loadSettings();
-            
-            // Initialiser AdSense
-            try {
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            } catch (e) {
-                console.log('AdSense non chargé');
-            }
             
             // Charger les voix après un délai si nécessaire
             setTimeout(() => {

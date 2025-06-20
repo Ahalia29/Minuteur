@@ -478,7 +478,7 @@
     </div>
 
     <script>
-        // Variables globales pour éviter les répétitions
+        // Variables globales avec contrôle de session
         let timeLeft = 300, totalTime = 300, timerActive = false;
         let interval = null, isPaused = false, wakeLock = null;
         let nextRappelPeriodique = 0, rappelAvantFinDeclenche = false;
@@ -486,10 +486,10 @@
         let rappel30SecDeclenche = false;
         let rappel10SecDeclenche = false;
         
-        // NOUVEAU: Variables pour éviter les répétitions de messages
-        let lastRappelPeriodiqueTime = -1;
-        let lastRappelAvantFinTime = -1;
-        let lastRappel1MinTime = -1;
+        // SYSTÈME ANTI-BOUCLE RENFORCÉ
+        let sessionId = Date.now(); // ID unique de session
+        let messagesEnvoyes = new Set(); // Stockage des messages déjà envoyés
+        let lastVoiceTime = 0; // Timestamp du dernier message vocal
         
         // Variables pour la synthèse vocale
         let speechSynthesis = window.speechSynthesis;
@@ -662,52 +662,69 @@
             sayMessage(message);
         }
         
-        // Synthèse vocale - VERSION ULTRA-SÉCURISÉE
+        // Synthèse vocale - VERSION ANTI-BOUCLE ABSOLUE
         function sayMessage(message) {
             if (!document.getElementById('vocalActif').checked) return;
             
-            console.log('Demande message vocal:', message, 'Time:', timeLeft);
+            const now = Date.now();
+            const messageKey = `${sessionId}_${timeLeft}_${message}`;
             
-            // Arrêter IMMÉDIATEMENT toute synthèse en cours
+            // Vérifier si ce message a déjà été envoyé
+            if (messagesEnvoyes.has(messageKey)) {
+                console.log('Message déjà envoyé, ignoré:', message);
+                return;
+            }
+            
+            // Vérifier qu'on n'envoie pas trop de messages rapprochés
+            if (now - lastVoiceTime < 2000) { // Minimum 2 secondes entre messages
+                console.log('Message trop rapproché, ignoré:', message);
+                return;
+            }
+            
+            // Marquer ce message comme envoyé
+            messagesEnvoyes.add(messageKey);
+            lastVoiceTime = now;
+            
+            console.log('ENVOI MESSAGE VOCAL:', message, 'Time:', timeLeft, 'Key:', messageKey);
+            
+            // FORCER l'arrêt de toute synthèse
             speechSynthesis.cancel();
             
-            // Nettoyer complètement la file d'attente
-            messageQueue = [];
-            isPlaying = false;
-            
-            // Attendre que la synthèse soit vraiment arrêtée
+            // Triple sécurité avec timeout
             setTimeout(() => {
-                const utterance = new SpeechSynthesisUtterance(message);
+                speechSynthesis.cancel();
                 
-                if (currentVoice) {
-                    utterance.voice = currentVoice;
-                }
-                
-                utterance.rate = document.getElementById('speedSlider').value / 150;
-                utterance.volume = document.getElementById('volumeSlider').value / 100;
-                
-                utterance.onstart = () => {
-                    console.log('Début synthèse:', message);
-                    isPlaying = true;
-                };
-                
-                utterance.onend = () => {
-                    console.log('Fin synthèse:', message);
-                    isPlaying = false;
-                };
-                
-                utterance.onerror = (e) => {
-                    console.log('Erreur synthèse:', e);
-                    isPlaying = false;
-                };
-                
-                try {
-                    speechSynthesis.speak(utterance);
-                } catch (e) {
-                    console.log('Erreur speak:', e);
-                    isPlaying = false;
-                }
-            }, 200); // Pause de sécurité
+                setTimeout(() => {
+                    if (!document.getElementById('vocalActif').checked) return;
+                    
+                    const utterance = new SpeechSynthesisUtterance(message);
+                    
+                    if (currentVoice) {
+                        utterance.voice = currentVoice;
+                    }
+                    
+                    utterance.rate = document.getElementById('speedSlider').value / 150;
+                    utterance.volume = document.getElementById('volumeSlider').value / 100;
+                    
+                    utterance.onstart = () => {
+                        console.log('DÉBUT SYNTHÈSE:', message);
+                    };
+                    
+                    utterance.onend = () => {
+                        console.log('FIN SYNTHÈSE:', message);
+                    };
+                    
+                    utterance.onerror = (e) => {
+                        console.log('ERREUR SYNTHÈSE:', e, message);
+                    };
+                    
+                    try {
+                        speechSynthesis.speak(utterance);
+                    } catch (e) {
+                        console.log('ERREUR SPEAK:', e);
+                    }
+                }, 100);
+            }, 200);
         }
         
         // Supprimer l'ancienne fonction processVoiceQueue car on n'en a plus besoin
@@ -715,7 +732,7 @@
             // Fonction supprimée - on utilise maintenant la synthèse directe
         }
         
-        // Démarrage du minuteur
+        // Démarrage du minuteur avec nettoyage complet
         async function startTimer() {
             if (!timerActive && !isPaused) {
                 const h = parseInt(document.getElementById('hours').value);
@@ -730,21 +747,30 @@
                     return;
                 }
 
-                // RÉINITIALISER TOUS LES RAPPELS
+                // NETTOYAGE COMPLET DE TOUT
+                speechSynthesis.cancel();
+                messagesEnvoyes.clear(); // Vider le cache des messages
+                sessionId = Date.now(); // Nouveau ID de session
+                lastVoiceTime = 0;
+                
+                // Réinitialiser tous les rappels
                 rappel1MinDeclenche = false;
                 rappelAvantFinDeclenche = false;
                 rappel30SecDeclenche = false;
                 rappel10SecDeclenche = false;
                 
-                // NOUVEAU: Réinitialiser les temps de rappels
-                lastRappelPeriodiqueTime = -1;
-                lastRappelAvantFinTime = -1;
-                lastRappel1MinTime = -1;
-                
                 if (document.getElementById('rappelPeriodique').checked) {
                     const intervalle = parseInt(document.getElementById('rappelMinutes').value) * 60;
                     nextRappelPeriodique = timeLeft - intervalle;
+                    if (nextRappelPeriodique <= 60) {
+                        nextRappelPeriodique = 0; // Pas de rappel périodique si trop court
+                    }
+                } else {
+                    nextRappelPeriodique = 0;
                 }
+                
+                console.log('NOUVEAU MINUTEUR:', timeLeft, 'secondes, Session:', sessionId);
+                console.log('Rappel périodique prévu à:', nextRappelPeriodique);
                 
                 // Générer message de démarrage
                 generateStartMessage(h, m, s);
@@ -812,35 +838,33 @@
             sayMessage(message);
         }
         
-        // Vérification des rappels - VERSION CORRIGÉE
+        // Vérification des rappels - VERSION ANTI-BOUCLE ABSOLUE
         function checkRappels() {
-            // Rappel périodique - CORRECTION: vérifier qu'on n'a pas déjà parlé à ce moment
+            // Rappel périodique
             if (document.getElementById('rappelPeriodique').checked && 
-                nextRappelPeriodique >= 0 &&
-                timeLeft <= nextRappelPeriodique && 
-                timeLeft > 60 &&
-                lastRappelPeriodiqueTime !== timeLeft) { // NOUVELLE CONDITION
+                nextRappelPeriodique > 0 &&
+                timeLeft === nextRappelPeriodique) { // CONDITION EXACTE
                 
                 const message = document.getElementById('messagePeriodique').value || "N'oublie pas de mélanger !";
                 sayMessage(message);
                 showNotification(`🔔 ${message}`);
                 vibrate([300, 100, 300]);
                 
-                // Marquer ce temps comme traité
-                lastRappelPeriodiqueTime = timeLeft;
-                
+                // Calculer le prochain rappel
                 const intervalle = parseInt(document.getElementById('rappelMinutes').value) * 60;
                 nextRappelPeriodique = nextRappelPeriodique - intervalle;
-                if (nextRappelPeriodique < 60) {
-                    nextRappelPeriodique = -1;
+                if (nextRappelPeriodique <= 60) {
+                    nextRappelPeriodique = 0; // Désactiver
                 }
+                
+                console.log('Rappel périodique envoyé à', timeLeft, 'prochain à', nextRappelPeriodique);
             }
             
-            // Rappel avant la fin - CORRECTION: utiliser un système de temps unique
+            // Rappel avant la fin
             const avantFinSecondes = parseInt(document.getElementById('avantFinMinutes').value) * 60;
             if (document.getElementById('rappelAvantFin').checked && 
-                timeLeft === avantFinSecondes &&
-                lastRappelAvantFinTime !== timeLeft) { // NOUVELLE CONDITION
+                !rappelAvantFinDeclenche &&
+                timeLeft === avantFinSecondes) { // CONDITION EXACTE
                 
                 const message = document.getElementById('messageAvantFin').value || "Action requise avant la fin!";
                 const minutesRestantes = Math.ceil(timeLeft / 60);
@@ -849,32 +873,32 @@
                 sayMessage(messageComplet);
                 showNotification(`⚠️ ${message}`);
                 vibrate([200, 100, 200, 100, 200]);
+                rappelAvantFinDeclenche = true;
                 
-                // Marquer ce temps comme traité
-                lastRappelAvantFinTime = timeLeft;
+                console.log('Rappel avant fin envoyé à', timeLeft);
             }
             
-            // Rappel 1 minute - CORRECTION: système de temps unique
+            // Rappel 1 minute
             if (document.getElementById('rappel1MinActif').checked && 
-                timeLeft === 60 &&
-                lastRappel1MinTime !== timeLeft) { // NOUVELLE CONDITION
+                !rappel1MinDeclenche &&
+                timeLeft === 60) { // CONDITION EXACTE
                 
                 sayMessage("Plus qu'une minute !");
                 showNotification("⏰ Plus qu'une minute !");
                 vibrate([300, 150, 300]);
+                rappel1MinDeclenche = true;
                 
-                // Marquer ce temps comme traité
-                lastRappel1MinTime = timeLeft;
+                console.log('Rappel 1 min envoyé à', timeLeft);
             }
             
-            // Rappel 30 secondes
+            // Rappel 30 secondes (SANS VOIX pour éviter surcharge)
             if (!rappel30SecDeclenche && timeLeft === 30) {
                 showNotification('⚡ 30 secondes!');
                 vibrate([200, 100, 200]);
                 rappel30SecDeclenche = true;
             }
             
-            // Rappel 10 secondes
+            // Rappel 10 secondes (SANS VOIX pour éviter surcharge)
             if (!rappel10SecDeclenche && timeLeft === 10) {
                 showNotification('🚨 10 secondes!');
                 vibrate([100, 50, 100, 50, 100]);
@@ -882,7 +906,7 @@
             }
         }
         
-        // Pause/reprise
+        // Pause/reprise et arrêt avec nettoyage absolu
         function pauseTimer() {
             if (timerActive) {
                 timerActive = false;
@@ -891,10 +915,9 @@
                 document.getElementById('status').innerHTML = '⏸️ En pause';
                 document.getElementById('pauseBtn').innerHTML = '▶️ REPRENDRE';
                 
-                // Arrêter la synthèse vocale lors de la pause
+                // NETTOYAGE COMPLET lors de la pause
                 speechSynthesis.cancel();
-                messageQueue = [];
-                isPlaying = false;
+                console.log('PAUSE - Synthèse arrêtée');
                 
                 if (wakeLock) {
                     wakeLock.release();
@@ -905,7 +928,6 @@
             }
         }
         
-        // Arrêt
         function stopTimer() {
             timerActive = false;
             isPaused = false;
@@ -916,16 +938,18 @@
             document.getElementById('status').innerHTML = '⏹️ Arrêté';
             document.getElementById('pauseBtn').innerHTML = '⏸️ PAUSE';
             
-            // Nettoyer complètement la synthèse vocale
+            // NETTOYAGE ABSOLU lors de l'arrêt
             speechSynthesis.cancel();
-            messageQueue = [];
-            isPlaying = false;
+            messagesEnvoyes.clear();
+            sessionId = Date.now(); // Nouvelle session
+            console.log('STOP - Tout nettoyé, nouvelle session:', sessionId);
             
-            // Réinitialiser les rappels
+            // Réinitialiser tous les rappels
             rappel1MinDeclenche = false;
             rappelAvantFinDeclenche = false;
             rappel30SecDeclenche = false;
             rappel10SecDeclenche = false;
+            nextRappelPeriodique = 0;
             
             if (wakeLock) {
                 wakeLock.release();
@@ -1151,8 +1175,12 @@
             }
         });
         
-        // Initialisation
+        // Initialisation avec nettoyage au démarrage
         window.addEventListener('load', () => {
+            // NETTOYAGE COMPLET au chargement
+            speechSynthesis.cancel();
+            console.log('PAGE CHARGÉE - Synthèse nettoyée');
+            
             updateDisplay();
             loadSettings();
             
@@ -1163,6 +1191,21 @@
                     loadSettings(); // Recharger les réglages pour la voix
                 }
             }, 1000);
+        });
+        
+        // Nettoyage supplémentaire au changement de visibilité de la page
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                // Page masquée - arrêter la synthèse
+                speechSynthesis.cancel();
+                console.log('PAGE MASQUÉE - Synthèse arrêtée');
+            }
+        });
+        
+        // Nettoyage avant fermeture de la page
+        window.addEventListener('beforeunload', () => {
+            speechSynthesis.cancel();
+            console.log('FERMETURE PAGE - Synthèse arrêtée');
         });
         
         // Restaurer les voix sélectionnées après chargement

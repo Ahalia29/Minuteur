@@ -9,9 +9,14 @@
   "theme_color": "#FF6B35",
   "categories": ["food", "productivity", "utilities"],
   "lang": "fr",
+  "dir": "ltr",
   "scope": "./",
   "id": "minuteur-cuisine-pro",
   "prefer_related_applications": false,
+  "iarc_rating_id": "e84b072d-71de-5b85-a95a-a8f7c5d6eae1",
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
   "icons": [
     {
       "src": "./icon-72.png",
@@ -84,5 +89,17 @@
   ],
   "edge_side_panel": {
     "preferred_width": 400
-  }
+  },
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.minuteur.cuisine",
+      "id": "com.minuteur.cuisine"
+    }
+  ],
+  "scope_extensions": [
+    {
+      "origin": "https://minuteur-cuisine.app"
+    }
+  ]
 }

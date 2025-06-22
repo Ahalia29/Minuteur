@@ -17,6 +17,9 @@
     <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
     <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png">
     
+    <!-- Google Mobile Ads SDK -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3379732632438907" crossorigin="anonymous"></script>
+    
     <style>
         * {
             margin: 0; padding: 0; box-sizing: border-box;
@@ -44,6 +47,20 @@
             text-shadow: 2px 2px 8px rgba(0,0,0,0.3); }
         
         .subtitle { opacity: 0.9; font-size: 0.8em; font-weight: 500; }
+        
+        /* AJOUT : Cadre simple pour la bannière AdMob */
+        .ad-banner {
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 8px;
+            margin: 15px 0;
+            text-align: center;
+            border: 1px dashed rgba(255,255,255,0.3);
+        }
+        
+        .ad-banner ins {
+            display: block !important;
+        }
         
         .tabs {
             display: flex; background: rgba(255,255,255,0.1); border-radius: 15px;
@@ -181,7 +198,14 @@
     <div class="container">
         <div class="header">
             <div class="title">⏰ MINUTEUR CUISINE</div>
-            <div class="subtitle">@ Nicolas Steiner 2025</div>
+        </div>
+        
+        <!-- SIMPLE cadre pour AdMob -->
+        <div class="ad-banner">
+            <ins class="adsbygoogle"
+                 style="display:inline-block;width:320px;height:50px"
+                 data-ad-client="ca-pub-3379732632438907"
+                 data-ad-slot="9742583442"></ins>
         </div>
         
         <div class="tabs">
@@ -288,7 +312,7 @@
                         <option value="3">3 S</option>
                         <option value="4">4 S</option>
                         <option value="5">5 S</option>
-                        <option value="6">6 M</option>
+                        <option value="6">6 S</option>
                         <option value="7">7 S</option>
                         <option value="8">8 S</option>
                         <option value="9">9 S</option>
@@ -344,13 +368,6 @@
                         <option value="59">59 S</option>
                     </select>
                 </div>
-                
-                <div class="presets">
-                    <button class="preset-btn" onclick="setTime(0,3,0)">🥚 Œuf coque 3 mn</button>
-                    <button class="preset-btn" onclick="setTime(0,6,0)">🥚 Œuf mollet 6 mn</button>
-                    <button class="preset-btn" onclick="setTime(0,9,0)">🥚 Œuf dur 9 mn</button>
-                    <button class="preset-btn" onclick="setTime(0,25,0)">🥧 Quiche 25 mn</button>
-                </div>
             </div>
 
             <div class="advanced-controls">
@@ -358,20 +375,66 @@
                     <input type="checkbox" id="rappelPeriodique" class="checkbox">
                     <label for="rappelPeriodique" style="font-size: 0.85em;">Rappel toutes les</label>
                     <select id="rappelMinutes" class="rappel-input" style="width: 70px;">
-                        <option value="0">0 min</option>
-                        <option value="5">5 min</option>
-                        <option value="10" selected>10 min</option>
-                        <option value="15">15 min</option>
-                        <option value="20">20 min</option>
-                        <option value="25">25 min</option>
-                        <option value="30">30 min</option>
-                        <option value="35">35 min</option>
-                        <option value="40">40 min</option>
-                        <option value="45">45 min</option>
-                        <option value="50">50 min</option>
-                        <option value="55">55 min</option>
-                        <option value="60">60 min</option>
-                    </select>
+                        <option value="0" selected>0 M</option>
+                        <option value="1">1 M</option>
+                        <option value="2">2 M</option>
+                        <option value="3">3 M</option>
+                        <option value="4">4 M</option>
+                        <option value="5">5 M</option>
+                        <option value="6">6 M</option>
+                        <option value="7">7 M</option>
+                        <option value="8">8 M</option>
+                        <option value="9">9 M</option>
+                        <option value="10">10 M</option>
+                        <option value="11">11 M</option>
+                        <option value="12">12 M</option>
+                        <option value="13">13 M</option>
+                        <option value="14">14 M</option>
+                        <option value="15">15 M</option>
+                        <option value="16">16 M</option>
+                        <option value="17">17 M</option>
+                        <option value="18">18 M</option>
+                        <option value="19">19 M</option>
+                        <option value="20">20 M</option>
+                        <option value="21">21 M</option>
+                        <option value="22">22 M</option>
+                        <option value="23">23 M</option>
+                        <option value="24">24 M</option>
+                        <option value="25">25 M</option>
+                        <option value="26">26 M</option>
+                        <option value="27">27 M</option>
+                        <option value="28">28 M</option>
+                        <option value="29">29 M</option>
+                        <option value="30">30 M</option>
+                        <option value="31">31 M</option>
+                        <option value="32">32 M</option>
+                        <option value="33">33 M</option>
+                        <option value="34">34 M</option>
+                        <option value="35">35 M</option>
+                        <option value="36">36 M</option>
+                        <option value="37">37 M</option>
+                        <option value="38">38 M</option>
+                        <option value="39">39 M</option>
+                        <option value="40">40 M</option>
+                        <option value="41">41 M</option>
+                        <option value="42">42 M</option>
+                        <option value="43">43 M</option>
+                        <option value="44">44 M</option>
+                        <option value="45">45 M</option>
+                        <option value="46">46 M</option>
+                        <option value="47">47 M</option>
+                        <option value="48">48 M</option>
+                        <option value="49">49 M</option>
+                        <option value="50">50 M</option>
+                        <option value="51">51 M</option>
+                        <option value="52">52 M</option>
+                        <option value="53">53 M</option>
+                        <option value="54">54 M</option>
+                        <option value="55">55 M</option>
+                        <option value="56">56 M</option>
+                        <option value="57">57 M</option>
+                        <option value="58">58 M</option>
+                        <option value="59">59 M</option>                    </select>
                 </div>
                 <input type="text" id="messagePeriodique" class="custom-message" placeholder="Message personnalisé..." value="N'oublie pas de mélanger !" style="margin-bottom: 15px;">
                 
@@ -379,26 +442,72 @@
                     <input type="checkbox" id="rappelAvantFin" class="checkbox">
                     <label for="rappelAvantFin" style="font-size: 0.85em;">Rappel</label>
                     <select id="avantFinMinutes" class="rappel-input" style="width: 70px;">
-                        <option value="0" selected>0 min</option>
-                        <option value="5">5 min</option>
-                        <option value="10">10 min</option>
-                        <option value="15">15 min</option>
-                        <option value="20">20 min</option>
-                        <option value="25">25 min</option>
-                        <option value="30">30 min</option>
-                        <option value="35">35 min</option>
-                        <option value="40">40 min</option>
-                        <option value="45">45 min</option>
-                        <option value="50">50 min</option>
-                        <option value="55">55 min</option>
-                        <option value="60">60 min</option>
-                    </select>
+                        <option value="0" selected>0 M</option>
+                        <option value="1">1 M</option>
+                        <option value="2">2 M</option>
+                        <option value="3">3 M</option>
+                        <option value="4">4 M</option>
+                        <option value="5">5 M</option>
+                        <option value="6">6 M</option>
+                        <option value="7">7 M</option>
+                        <option value="8">8 M</option>
+                        <option value="9">9 M</option>
+                        <option value="10">10 M</option>
+                        <option value="11">11 M</option>
+                        <option value="12">12 M</option>
+                        <option value="13">13 M</option>
+                        <option value="14">14 M</option>
+                        <option value="15">15 M</option>
+                        <option value="16">16 M</option>
+                        <option value="17">17 M</option>
+                        <option value="18">18 M</option>
+                        <option value="19">19 M</option>
+                        <option value="20">20 M</option>
+                        <option value="21">21 M</option>
+                        <option value="22">22 M</option>
+                        <option value="23">23 M</option>
+                        <option value="24">24 M</option>
+                        <option value="25">25 M</option>
+                        <option value="26">26 M</option>
+                        <option value="27">27 M</option>
+                        <option value="28">28 M</option>
+                        <option value="29">29 M</option>
+                        <option value="30">30 M</option>
+                        <option value="31">31 M</option>
+                        <option value="32">32 M</option>
+                        <option value="33">33 M</option>
+                        <option value="34">34 M</option>
+                        <option value="35">35 M</option>
+                        <option value="36">36 M</option>
+                        <option value="37">37 M</option>
+                        <option value="38">38 M</option>
+                        <option value="39">39 M</option>
+                        <option value="40">40 M</option>
+                        <option value="41">41 M</option>
+                        <option value="42">42 M</option>
+                        <option value="43">43 M</option>
+                        <option value="44">44 M</option>
+                        <option value="45">45 M</option>
+                        <option value="46">46 M</option>
+                        <option value="47">47 M</option>
+                        <option value="48">48 M</option>
+                        <option value="49">49 M</option>
+                        <option value="50">50 M</option>
+                        <option value="51">51 M</option>
+                        <option value="52">52 M</option>
+                        <option value="53">53 M</option>
+                        <option value="54">54 M</option>
+                        <option value="55">55 M</option>
+                        <option value="56">56 M</option>
+                        <option value="57">57 M</option>
+                        <option value="58">58 M</option>
+                        <option value="59">59 M</option>                    </select>
                     <span style="font-size: 0.85em;">avant la fin</span>
                 </div>
                 <input type="text" id="messageAvantFin" class="custom-message" placeholder="Message personnalisé..." value="N'oublie pas d'ajouter l'ingrédient !">
             </div>
             
-            <div class="timer-display" id="display" onclick="toggleFullscreen()">00:05:00</div>
+            <div class="timer-display" id="display" onclick="toggleFullscreen()">00:00:00</div>
             
             <div class="progress-container">
                 <div class="progress-bar" id="progress"></div>
@@ -415,6 +524,16 @@
         
         <!-- Onglet Options -->
         <div id="tab-options" class="tab-content">
+            <div class="options-section">
+                <div class="advanced-title">⏱️ Préréglages rapides</div>
+                <div class="presets">
+                    <button class="preset-btn" onclick="setTime(0,3,0); switchTab('minuteur')">🥚 Œuf coque 3 mn</button>
+                    <button class="preset-btn" onclick="setTime(0,6,0); switchTab('minuteur')">🥚 Œuf mollet 6 mn</button>
+                    <button class="preset-btn" onclick="setTime(0,9,0); switchTab('minuteur')">🥚 Œuf dur 9 mn</button>
+                    <button class="preset-btn" onclick="setTime(0,25,0); switchTab('minuteur')">🥧 Quiche 25 mn</button>
+                </div>
+            </div>
+            
             <div class="options-section">
                 <div class="advanced-title">🔊 Synthèse vocale</div>
                 <div class="rappel-config">
@@ -437,9 +556,6 @@
                 </select>
                 
                 <button class="test-btn" onclick="testVoice()">🎤 Tester la voix</button>
-                <button class="test-btn" onclick="emergencyStopVoice()" style="background: linear-gradient(135deg, #f44336, #d32f2f); margin-top: 5px;">
-                    🚨 ARRÊT D'URGENCE VOCAL
-                </button>
             </div>
             
             <div class="options-section">
@@ -463,11 +579,17 @@
                     <label style="font-size: 0.9em;">Rappel automatique 1 minute avant la fin</label>
                 </div>
             </div>
+            
+            <div class="options-section">
+                <div style="text-align: center; opacity: 0.7; font-size: 0.8em; margin-top: 20px;">
+                    @ Nicolas Steiner 2025
+                </div>
+            </div>
         </div>
     </div>
     
     <div class="fullscreen" id="fullscreen" onclick="toggleFullscreen()">
-        <div class="fullscreen-time" id="fullscreenTime">00:05:00</div>
+        <div class="fullscreen-time" id="fullscreenTime">00:00:00</div>
         <div class="fullscreen-close">Toucher pour fermer</div>
     </div>
     
@@ -481,21 +603,18 @@
     </div>
 
     <script>
-        // Variables globales avec contrôle mobile spécifique
-        let timeLeft = 300, totalTime = 300, timerActive = false;
+        // Variables globales avec contrôle de session
+        let timeLeft = 0, totalTime = 0, timerActive = false;
         let interval = null, isPaused = false, wakeLock = null;
         let nextRappelPeriodique = 0, rappelAvantFinDeclenche = false;
         let rappel1MinDeclenche = false;
         let rappel30SecDeclenche = false;
         let rappel10SecDeclenche = false;
         
-        // SYSTÈME ANTI-BOUCLE MOBILE RENFORCÉ
-        let sessionId = Date.now();
-        let messagesEnvoyes = new Set();
-        let lastVoiceTime = 0;
-        let currentUtterance = null; // Référence à l'utterance en cours
-        let isSpeaking = false; // Flag manuel pour mobile
-        let speechBlocked = false; // Blocage d'urgence
+        // SYSTÈME ANTI-BOUCLE RENFORCÉ
+        let sessionId = Date.now(); // ID unique de session
+        let messagesEnvoyes = new Set(); // Stockage des messages déjà envoyés
+        let lastVoiceTime = 0; // Timestamp du dernier message vocal
         
         // Variables pour la synthèse vocale
         let speechSynthesis = window.speechSynthesis;
@@ -506,6 +625,16 @@
         
         // PWA Installation
         let deferredPrompt;
+        
+        // Initialisation AdMob
+        function initAdMob() {
+            try {
+                // Charger les annonces AdMob
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            } catch (error) {
+                // Erreur lors du chargement AdMob
+            }
+        }
         
         // Mise à jour de l'affichage
         function updateDisplay() {
@@ -540,44 +669,6 @@
                 totalTime = timeLeft;
                 updateDisplay();
             }
-        }
-        
-        // Service Worker externe
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./sw.js', {
-                scope: './'
-            }).then(registration => {
-                console.log('SW: Enregistrement réussi', registration.scope);
-                
-                // Enregistrer pour la synchronisation périodique si supportée
-                if ('periodicSync' in registration) {
-                    registration.periodicSync.register('update-cache', {
-                        minInterval: 24 * 60 * 60 * 1000 // 24 heures
-                    }).catch(err => console.log('Periodic sync not supported'));
-                }
-                
-                // Vérifier les mises à jour
-                registration.addEventListener('updatefound', () => {
-                    const newWorker = registration.installing;
-                    newWorker.addEventListener('statechange', () => {
-                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                            // Nouvelle version disponible
-                            if (confirm('Nouvelle version disponible ! Recharger ?')) {
-                                newWorker.postMessage({ type: 'SKIP_WAITING' });
-                                window.location.reload();
-                            }
-                        }
-                    });
-                });
-                
-            }).catch(error => {
-                console.log('SW: Échec d\'enregistrement', error);
-            });
-            
-            // Écouter les messages du SW
-            navigator.serviceWorker.addEventListener('message', event => {
-                console.log('Message du SW:', event.data);
-            });
         }
         
         // PWA Installation
@@ -668,142 +759,68 @@
             sayMessage(message);
         }
         
-        // FONCTION D'URGENCE pour mobile
-        function emergencyStopVoice() {
-            console.log('MOBILE: ARRÊT D\'URGENCE VOCAL');
-            speechBlocked = true;
-            
-            try {
-                // Arrêt brutal multiple
-                speechSynthesis.cancel();
-                speechSynthesis.cancel();
-                speechSynthesis.cancel();
-                
-                if (currentUtterance) {
-                    currentUtterance = null;
-                }
-                isSpeaking = false;
-                messagesEnvoyes.clear();
-                
-                // Nouvelle session pour reset complet
-                sessionId = Date.now();
-                
-                showNotification('🚨 Synthèse vocale arrêtée d\'urgence !');
-                
-                // Débloquer après 2 secondes
-                setTimeout(() => {
-                    speechBlocked = false;
-                    console.log('MOBILE: Synthèse débloquée');
-                }, 2000);
-                
-            } catch (e) {
-                console.log('MOBILE: Erreur arrêt urgence:', e);
-            }
-        }
-        
-        // Synthèse vocale - VERSION MOBILE ANTI-BOUCLE
+        // Synthèse vocale - VERSION ANTI-BOUCLE ABSOLUE
         function sayMessage(message) {
-            if (!document.getElementById('vocalActif').checked || speechBlocked) return;
+            if (!document.getElementById('vocalActif').checked) return;
             
             const now = Date.now();
             const messageKey = `${sessionId}_${timeLeft}_${message}`;
             
-            // Vérifications renforcées pour mobile
+            // Vérifier si ce message a déjà été envoyé
             if (messagesEnvoyes.has(messageKey)) {
-                console.log('MOBILE: Message déjà envoyé, ignoré:', message);
                 return;
             }
             
-            if (now - lastVoiceTime < 3000) { // 3 secondes minimum sur mobile
-                console.log('MOBILE: Message trop rapproché, ignoré:', message);
+            // Vérifier qu'on n'envoie pas trop de messages rapprochés
+            if (now - lastVoiceTime < 2000) { // Minimum 2 secondes entre messages
                 return;
             }
             
-            if (isSpeaking) {
-                console.log('MOBILE: Synthèse en cours, ignoré:', message);
-                return;
-            }
-            
-            // Marquer comme envoyé AVANT de commencer
+            // Marquer ce message comme envoyé
             messagesEnvoyes.add(messageKey);
             lastVoiceTime = now;
-            isSpeaking = true;
             
-            console.log('MOBILE: ENVOI MESSAGE:', message, 'Time:', timeLeft);
+            // FORCER l'arrêt de toute synthèse
+            speechSynthesis.cancel();
             
-            // ARRÊT BRUTAL pour mobile
-            try {
-                speechSynthesis.cancel();
-                if (currentUtterance) {
-                    currentUtterance = null;
-                }
-            } catch (e) {
-                console.log('MOBILE: Erreur cancel:', e);
-            }
-            
-            // Délai plus long pour mobile
+            // Triple sécurité avec timeout
             setTimeout(() => {
-                if (!document.getElementById('vocalActif').checked || speechBlocked) {
-                    isSpeaking = false;
-                    return;
-                }
+                speechSynthesis.cancel();
                 
-                try {
-                    speechSynthesis.cancel(); // Second nettoyage
+                setTimeout(() => {
+                    if (!document.getElementById('vocalActif').checked) return;
                     
-                    currentUtterance = new SpeechSynthesisUtterance(message);
+                    const utterance = new SpeechSynthesisUtterance(message);
                     
                     if (currentVoice) {
-                        currentUtterance.voice = currentVoice;
+                        utterance.voice = currentVoice;
                     }
                     
-                    currentUtterance.rate = document.getElementById('speedSlider').value / 150;
-                    currentUtterance.volume = document.getElementById('volumeSlider').value / 100;
+                    utterance.rate = document.getElementById('speedSlider').value / 150;
+                    utterance.volume = document.getElementById('volumeSlider').value / 100;
                     
-                    // Gestion des événements renforcée pour mobile
-                    currentUtterance.onstart = () => {
-                        console.log('MOBILE: DÉBUT SYNTHÈSE:', message);
-                        isSpeaking = true;
+                    utterance.onstart = () => {
+                        // Synthèse démarrée
                     };
                     
-                    currentUtterance.onend = () => {
-                        console.log('MOBILE: FIN SYNTHÈSE:', message);
-                        isSpeaking = false;
-                        currentUtterance = null;
+                    utterance.onend = () => {
+                        // Synthèse terminée
                     };
                     
-                    currentUtterance.onerror = (e) => {
-                        console.log('MOBILE: ERREUR SYNTHÈSE:', e, message);
-                        isSpeaking = false;
-                        currentUtterance = null;
+                    utterance.onerror = (e) => {
+                        // Erreur de synthèse
                     };
                     
-                    // Timeout de sécurité pour mobile (synthèse bloquée)
-                    setTimeout(() => {
-                        if (isSpeaking && currentUtterance) {
-                            console.log('MOBILE: TIMEOUT - Forçage arrêt synthèse');
-                            speechSynthesis.cancel();
-                            isSpeaking = false;
-                            currentUtterance = null;
-                        }
-                    }, 10000); // 10 secondes max
-                    
-                    speechSynthesis.speak(currentUtterance);
-                    
-                } catch (e) {
-                    console.log('MOBILE: ERREUR SPEAK:', e);
-                    isSpeaking = false;
-                    currentUtterance = null;
-                }
-            }, 500); // Délai plus long pour mobile
+                    try {
+                        speechSynthesis.speak(utterance);
+                    } catch (e) {
+                        // Erreur lors de la synthèse
+                    }
+                }, 100);
+            }, 200);
         }
         
-        // Supprimer l'ancienne fonction processVoiceQueue car on n'en a plus besoin
-        function processVoiceQueue() {
-            // Fonction supprimée - on utilise maintenant la synthèse directe
-        }
-        
-        // Démarrage du minuteur avec nettoyage mobile complet
+        // Démarrage du minuteur avec nettoyage complet
         async function startTimer() {
             if (!timerActive && !isPaused) {
                 const h = parseInt(document.getElementById('hours').value);
@@ -818,20 +835,11 @@
                     return;
                 }
 
-                // NETTOYAGE MOBILE COMPLET
-                speechBlocked = true; // Bloquer pendant le reset
-                try {
-                    speechSynthesis.cancel();
-                    if (currentUtterance) {
-                        currentUtterance = null;
-                    }
-                    isSpeaking = false;
-                    messagesEnvoyes.clear();
-                    sessionId = Date.now();
-                    lastVoiceTime = 0;
-                } catch (e) {
-                    console.log('MOBILE: Erreur nettoyage start:', e);
-                }
+                // NETTOYAGE COMPLET DE TOUT
+                speechSynthesis.cancel();
+                messagesEnvoyes.clear(); // Vider le cache des messages
+                sessionId = Date.now(); // Nouveau ID de session
+                lastVoiceTime = 0;
                 
                 // Réinitialiser tous les rappels
                 rappel1MinDeclenche = false;
@@ -841,23 +849,24 @@
                 
                 if (document.getElementById('rappelPeriodique').checked) {
                     const intervalle = parseInt(document.getElementById('rappelMinutes').value) * 60;
+                    const avantFinSecondes = parseInt(document.getElementById('avantFinMinutes').value) * 60;
+                    
                     nextRappelPeriodique = timeLeft - intervalle;
+                    
+                    // ÉVITER LE CONFLIT : Si le rappel périodique tombe exactement sur le rappel avant la fin
+                    if (document.getElementById('rappelAvantFin').checked && nextRappelPeriodique === avantFinSecondes) {
+                        nextRappelPeriodique = nextRappelPeriodique - 1; // Décaler d'1 seconde
+                    }
+                    
                     if (nextRappelPeriodique <= 60) {
-                        nextRappelPeriodique = 0;
+                        nextRappelPeriodique = 0; // Pas de rappel périodique si trop court
                     }
                 } else {
                     nextRappelPeriodique = 0;
                 }
                 
-                console.log('MOBILE: NOUVEAU MINUTEUR:', timeLeft, 'secondes, Session:', sessionId);
-                
-                // Débloquer la synthèse après reset
-                speechBlocked = false;
-                
-                // Générer message de démarrage après délai
-                setTimeout(() => {
-                    generateStartMessage(h, m, s);
-                }, 500);
+                // Générer message de démarrage
+                generateStartMessage(h, m, s);
             }
             
             if (!timerActive) {
@@ -922,12 +931,32 @@
             sayMessage(message);
         }
         
-        // Vérification des rappels - VERSION ANTI-BOUCLE ABSOLUE
+        // Vérification des rappels - VERSION FINALE
         function checkRappels() {
-            // Rappel périodique
+            const avantFinSecondes = parseInt(document.getElementById('avantFinMinutes').value) * 60;
+            let rappelAvantFinActive = false;
+            
+            // PRIORITÉ 1: Rappel avant la fin (le plus important)
+            if (document.getElementById('rappelAvantFin').checked && 
+                !rappelAvantFinDeclenche &&
+                timeLeft === avantFinSecondes) {
+                
+                const message = document.getElementById('messageAvantFin').value || "Action requise avant la fin!";
+                const minutesRestantes = Math.ceil(timeLeft / 60);
+                const messageComplet = `${message} Il reste ${minutesRestantes} minutes.`;
+                
+                sayMessage(messageComplet);
+                showNotification(`⚠️ ${message}`);
+                vibrate([200, 100, 200, 100, 200]);
+                rappelAvantFinDeclenche = true;
+                rappelAvantFinActive = true;
+            }
+            
+            // PRIORITÉ 2: Rappel périodique
             if (document.getElementById('rappelPeriodique').checked && 
                 nextRappelPeriodique > 0 &&
-                timeLeft === nextRappelPeriodique) { // CONDITION EXACTE
+                timeLeft === nextRappelPeriodique &&
+                !rappelAvantFinActive) {
                 
                 const message = document.getElementById('messagePeriodique').value || "N'oublie pas de mélanger !";
                 sayMessage(message);
@@ -938,51 +967,29 @@
                 const intervalle = parseInt(document.getElementById('rappelMinutes').value) * 60;
                 nextRappelPeriodique = nextRappelPeriodique - intervalle;
                 if (nextRappelPeriodique <= 60) {
-                    nextRappelPeriodique = 0; // Désactiver
+                    nextRappelPeriodique = 0;
                 }
-                
-                console.log('Rappel périodique envoyé à', timeLeft, 'prochain à', nextRappelPeriodique);
             }
             
-            // Rappel avant la fin
-            const avantFinSecondes = parseInt(document.getElementById('avantFinMinutes').value) * 60;
-            if (document.getElementById('rappelAvantFin').checked && 
-                !rappelAvantFinDeclenche &&
-                timeLeft === avantFinSecondes) { // CONDITION EXACTE
-                
-                const message = document.getElementById('messageAvantFin').value || "Action requise avant la fin!";
-                const minutesRestantes = Math.ceil(timeLeft / 60);
-                const messageComplet = `${message} Il reste ${minutesRestantes} minutes.`;
-                
-                sayMessage(messageComplet);
-                showNotification(`⚠️ ${message}`);
-                vibrate([200, 100, 200, 100, 200]);
-                rappelAvantFinDeclenche = true;
-                
-                console.log('Rappel avant fin envoyé à', timeLeft);
-            }
-            
-            // Rappel 1 minute
+            // PRIORITÉ 3: Rappel 1 minute
             if (document.getElementById('rappel1MinActif').checked && 
                 !rappel1MinDeclenche &&
-                timeLeft === 60) { // CONDITION EXACTE
+                timeLeft === 60) {
                 
                 sayMessage("Plus qu'une minute !");
                 showNotification("⏰ Plus qu'une minute !");
                 vibrate([300, 150, 300]);
                 rappel1MinDeclenche = true;
-                
-                console.log('Rappel 1 min envoyé à', timeLeft);
             }
             
-            // Rappel 30 secondes (SANS VOIX pour éviter surcharge)
+            // Rappel 30 secondes
             if (!rappel30SecDeclenche && timeLeft === 30) {
                 showNotification('⚡ 30 secondes!');
                 vibrate([200, 100, 200]);
                 rappel30SecDeclenche = true;
             }
             
-            // Rappel 10 secondes (SANS VOIX pour éviter surcharge)
+            // Rappel 10 secondes
             if (!rappel10SecDeclenche && timeLeft === 10) {
                 showNotification('🚨 10 secondes!');
                 vibrate([100, 50, 100, 50, 100]);
@@ -990,7 +997,7 @@
             }
         }
         
-        // Pause/reprise et arrêt avec nettoyage mobile absolu
+        // Pause/reprise et arrêt avec nettoyage absolu
         function pauseTimer() {
             if (timerActive) {
                 timerActive = false;
@@ -999,25 +1006,14 @@
                 document.getElementById('status').innerHTML = '⏸️ En pause';
                 document.getElementById('pauseBtn').innerHTML = '▶️ REPRENDRE';
                 
-                // NETTOYAGE MOBILE RENFORCÉ
-                speechBlocked = true; // Bloquer toute nouvelle synthèse
-                try {
-                    speechSynthesis.cancel();
-                    if (currentUtterance) {
-                        currentUtterance = null;
-                    }
-                    isSpeaking = false;
-                } catch (e) {
-                    console.log('MOBILE: Erreur nettoyage pause:', e);
-                }
-                console.log('MOBILE: PAUSE - Synthèse bloquée');
+                // NETTOYAGE COMPLET lors de la pause
+                speechSynthesis.cancel();
                 
                 if (wakeLock) {
                     wakeLock.release();
                     wakeLock = null;
                 }
             } else if (isPaused) {
-                speechBlocked = false; // Débloquer
                 startTimer();
             }
         }
@@ -1032,26 +1028,10 @@
             document.getElementById('status').innerHTML = '⏹️ Arrêté';
             document.getElementById('pauseBtn').innerHTML = '⏸️ PAUSE';
             
-            // NETTOYAGE MOBILE ABSOLU
-            speechBlocked = true; // Bloquer immédiatement
-            try {
-                speechSynthesis.cancel();
-                if (currentUtterance) {
-                    currentUtterance = null;
-                }
-                isSpeaking = false;
-                messagesEnvoyes.clear();
-                sessionId = Date.now(); // Nouvelle session
-            } catch (e) {
-                console.log('MOBILE: Erreur nettoyage stop:', e);
-            }
-            
-            // Débloquer après nettoyage
-            setTimeout(() => {
-                speechBlocked = false;
-            }, 1000);
-            
-            console.log('MOBILE: STOP - Tout nettoyé, nouvelle session:', sessionId);
+            // NETTOYAGE ABSOLU lors de l'arrêt
+            speechSynthesis.cancel();
+            messagesEnvoyes.clear();
+            sessionId = Date.now(); // Nouvelle session
             
             // Réinitialiser tous les rappels
             rappel1MinDeclenche = false;
@@ -1132,7 +1112,7 @@
                 oscillator.start(audioContext.currentTime);
                 oscillator.stop(audioContext.currentTime + 1.5);
             } catch (e) {
-                console.log('Audio non supporté');
+                // Audio non supporté
             }
         }
         
@@ -1156,7 +1136,7 @@
             }
         }
         
-        // Sauvegarde des réglages avec synchronisation en arrière-plan
+        // Sauvegarde des réglages
         function saveSettings() {
             const settings = {
                 rappelPeriodique: document.getElementById('rappelPeriodique').checked,
@@ -1178,15 +1158,8 @@
             
             try {
                 localStorage.setItem('minuteurSettings', JSON.stringify(settings));
-                
-                // Programmer une synchronisation en arrière-plan
-                if ('serviceWorker' in navigator && 'sync' in window.ServiceWorkerRegistration.prototype) {
-                    navigator.serviceWorker.ready.then(registration => {
-                        return registration.sync.register('background-sync');
-                    }).catch(err => console.log('Background sync non supporté'));
-                }
             } catch (e) {
-                console.log('Erreur sauvegarde:', e);
+                // Erreur sauvegarde
             }
         }
 
@@ -1222,55 +1195,9 @@
                     }
                 }
             } catch (e) {
-                console.log('Pas de réglages sauvegardés');
+                // Pas de réglages sauvegardés
             }
         }
-
-        // Demander permissions notifications et enregistrer pour les notifications push
-        async function requestNotificationPermission() {
-            if ('Notification' in window) {
-                const permission = await Notification.requestPermission();
-                if (permission === 'granted') {
-                    console.log('Permission de notification accordée');
-                    
-                    // Enregistrer pour les notifications push si possible
-                    if ('serviceWorker' in navigator && 'PushManager' in window) {
-                        try {
-                            const registration = await navigator.serviceWorker.ready;
-                            
-                            // Vérifier si déjà abonné
-                            const existingSubscription = await registration.pushManager.getSubscription();
-                            if (!existingSubscription) {
-                                // S'abonner aux notifications push
-                                const subscription = await registration.pushManager.subscribe({
-                                    userVisibleOnly: true,
-                                    applicationServerKey: 'BNvjExV-Xfs_AepGKO9YG5XEyj4VtP6E0PoZWgZ_Tck_EQCJH7VfWpKHYXb4ZZ1-1qQ'
-                                });
-                                console.log('Abonnement push créé:', subscription);
-                            }
-                        } catch (error) {
-                            console.log('Push notifications non supportées:', error);
-                        }
-                    }
-                }
-            }
-        }
-        
-        // Demander permission notifications
-        if ('Notification' in window && Notification.permission === 'default') {
-            // Attendre un peu avant de demander pour ne pas être intrusif
-            setTimeout(requestNotificationPermission, 5000);
-        }
-        
-        // Empêcher le zoom sur double-tap
-        let lastTouchEnd = 0;
-        document.addEventListener('touchend', function (event) {
-            const now = (new Date()).getTime();
-            if (now - lastTouchEnd <= 300) {
-                event.preventDefault();
-            }
-            lastTouchEnd = now;
-        }, false);
 
         // Event listeners pour la sauvegarde
         ['rappelPeriodique', 'rappelMinutes', 'messagePeriodique', 'rappelAvantFin', 
@@ -1284,14 +1211,15 @@
             }
         });
         
-        // Initialisation avec nettoyage au démarrage
+        // Initialisation
         window.addEventListener('load', () => {
-            // NETTOYAGE COMPLET au chargement
-            speechSynthesis.cancel();
-            console.log('PAGE CHARGÉE - Synthèse nettoyée');
-            
             updateDisplay();
             loadSettings();
+            
+            // Initialiser AdMob après le chargement complet
+            setTimeout(() => {
+                initAdMob();
+            }, 1000);
             
             // Charger les voix après un délai si nécessaire
             setTimeout(() => {
@@ -1300,21 +1228,6 @@
                     loadSettings(); // Recharger les réglages pour la voix
                 }
             }, 1000);
-        });
-        
-        // Nettoyage supplémentaire au changement de visibilité de la page
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                // Page masquée - arrêter la synthèse
-                speechSynthesis.cancel();
-                console.log('PAGE MASQUÉE - Synthèse arrêtée');
-            }
-        });
-        
-        // Nettoyage avant fermeture de la page
-        window.addEventListener('beforeunload', () => {
-            speechSynthesis.cancel();
-            console.log('FERMETURE PAGE - Synthèse arrêtée');
         });
         
         // Restaurer les voix sélectionnées après chargement

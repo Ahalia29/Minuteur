@@ -3,6 +3,8 @@
   "short_name": "Minuteur",
   "description": "Minuteur de cuisine professionnel avec synthèse vocale et rappels personnalisés",
   "start_url": "https://minuteur-cuisine.com/",
+  "version": "1.4.3",
+  "version_name": "1.4.3"
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#FF6B35",

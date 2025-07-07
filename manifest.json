@@ -13,7 +13,8 @@
   "lang": "fr",
   "dir": "ltr",
   "scope": "https://minuteur-cuisine.com/",
-  "id": "minuteur-cuisine-pro",
+  "id": "com.minuteur_cuisine.twa",
+  "package_name": "com.minuteur_cuisine.twa",
   "prefer_related_applications": false,
   "iarc_rating_id": "e84b072d-71de-5b85-a95a-a8f7c5d6eae1",
   "launch_handler": {
